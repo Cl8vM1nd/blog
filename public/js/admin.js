@@ -10,17 +10,17 @@ $(document).ready(function() {
 
     // <b>
     $('#text-editor-b').on('click', function(e) {
-        editor.text(editor.val() + "<b></b>");
+        editor.val(editor.val() + "<b></b>");
     });
 
     // <i>
     $('#text-editor-i').on('click', function(e) {
-        editor.text(editor.val() + "<i></i>");
+        editor.val(editor.val() + "<i></i>");
     });
 
     // <u>
     $('#text-editor-u').on('click', function(e) {
-        editor.text(editor.val() + "<u></u>");
+        editor.val(editor.val() + "<u></u>");
     });
 
     // <img>

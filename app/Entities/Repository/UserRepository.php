@@ -4,8 +4,6 @@
 
 namespace App\Entities\Repository;
 
-use App\Entities\User;
-
 class UserRepository extends EntityRepository
 {
     /**

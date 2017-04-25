@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-03-03.
+    * Generated on 2017-04-25.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -31,6 +31,7 @@ namespace PHPSTORM_META {
             'files' instanceof \Illuminate\Filesystem\Filesystem,
             'filesystem' instanceof \Illuminate\Filesystem\FilesystemManager,
             'filesystem.disk' instanceof \Illuminate\Filesystem\FilesystemAdapter,
+            'filesystem.cloud' instanceof \Illuminate\Filesystem\FilesystemAdapter,
             'Illuminate\Notifications\ChannelManager' instanceof \Illuminate\Notifications\ChannelManager,
             'session' instanceof \Illuminate\Session\SessionManager,
             'session.store' instanceof \Illuminate\Session\Store,
@@ -41,6 +42,8 @@ namespace PHPSTORM_META {
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
+            'App\Services\CloudService' instanceof \App\Services\CloudService,
+            'App\Services\TagsService' instanceof \App\Services\TagsService,
             'LaravelDoctrine\ORM\Configuration\Cache\CacheManager' instanceof \LaravelDoctrine\ORM\Configuration\Cache\CacheManager,
             'LaravelDoctrine\ORM\Configuration\MetaData\MetaDataManager' instanceof \LaravelDoctrine\ORM\Configuration\MetaData\MetaDataManager,
             'LaravelDoctrine\ORM\Configuration\Connections\ConnectionManager' instanceof \LaravelDoctrine\ORM\Configuration\Connections\ConnectionManager,
@@ -125,6 +128,7 @@ namespace PHPSTORM_META {
             'command.queue.listen' instanceof \Illuminate\Queue\Console\ListenCommand,
             'queue.listener' instanceof \Illuminate\Queue\Listener,
             'queue.failer' instanceof \Illuminate\Queue\Failed\DatabaseFailedJobProvider,
+            'redis' instanceof \Illuminate\Redis\Database,
             'auth.password' instanceof \Illuminate\Auth\Passwords\PasswordBrokerManager,
             'auth.password.broker' instanceof \Illuminate\Auth\Passwords\PasswordBroker,
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,
@@ -154,6 +158,7 @@ namespace PHPSTORM_META {
             'files' instanceof \Illuminate\Filesystem\Filesystem,
             'filesystem' instanceof \Illuminate\Filesystem\FilesystemManager,
             'filesystem.disk' instanceof \Illuminate\Filesystem\FilesystemAdapter,
+            'filesystem.cloud' instanceof \Illuminate\Filesystem\FilesystemAdapter,
             'Illuminate\Notifications\ChannelManager' instanceof \Illuminate\Notifications\ChannelManager,
             'session' instanceof \Illuminate\Session\SessionManager,
             'session.store' instanceof \Illuminate\Session\Store,
@@ -164,6 +169,8 @@ namespace PHPSTORM_META {
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
+            'App\Services\CloudService' instanceof \App\Services\CloudService,
+            'App\Services\TagsService' instanceof \App\Services\TagsService,
             'LaravelDoctrine\ORM\Configuration\Cache\CacheManager' instanceof \LaravelDoctrine\ORM\Configuration\Cache\CacheManager,
             'LaravelDoctrine\ORM\Configuration\MetaData\MetaDataManager' instanceof \LaravelDoctrine\ORM\Configuration\MetaData\MetaDataManager,
             'LaravelDoctrine\ORM\Configuration\Connections\ConnectionManager' instanceof \LaravelDoctrine\ORM\Configuration\Connections\ConnectionManager,
@@ -248,6 +255,7 @@ namespace PHPSTORM_META {
             'command.queue.listen' instanceof \Illuminate\Queue\Console\ListenCommand,
             'queue.listener' instanceof \Illuminate\Queue\Listener,
             'queue.failer' instanceof \Illuminate\Queue\Failed\DatabaseFailedJobProvider,
+            'redis' instanceof \Illuminate\Redis\Database,
             'auth.password' instanceof \Illuminate\Auth\Passwords\PasswordBrokerManager,
             'auth.password.broker' instanceof \Illuminate\Auth\Passwords\PasswordBroker,
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,
@@ -277,6 +285,7 @@ namespace PHPSTORM_META {
             'files' instanceof \Illuminate\Filesystem\Filesystem,
             'filesystem' instanceof \Illuminate\Filesystem\FilesystemManager,
             'filesystem.disk' instanceof \Illuminate\Filesystem\FilesystemAdapter,
+            'filesystem.cloud' instanceof \Illuminate\Filesystem\FilesystemAdapter,
             'Illuminate\Notifications\ChannelManager' instanceof \Illuminate\Notifications\ChannelManager,
             'session' instanceof \Illuminate\Session\SessionManager,
             'session.store' instanceof \Illuminate\Session\Store,
@@ -287,6 +296,8 @@ namespace PHPSTORM_META {
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
+            'App\Services\CloudService' instanceof \App\Services\CloudService,
+            'App\Services\TagsService' instanceof \App\Services\TagsService,
             'LaravelDoctrine\ORM\Configuration\Cache\CacheManager' instanceof \LaravelDoctrine\ORM\Configuration\Cache\CacheManager,
             'LaravelDoctrine\ORM\Configuration\MetaData\MetaDataManager' instanceof \LaravelDoctrine\ORM\Configuration\MetaData\MetaDataManager,
             'LaravelDoctrine\ORM\Configuration\Connections\ConnectionManager' instanceof \LaravelDoctrine\ORM\Configuration\Connections\ConnectionManager,
@@ -371,6 +382,7 @@ namespace PHPSTORM_META {
             'command.queue.listen' instanceof \Illuminate\Queue\Console\ListenCommand,
             'queue.listener' instanceof \Illuminate\Queue\Listener,
             'queue.failer' instanceof \Illuminate\Queue\Failed\DatabaseFailedJobProvider,
+            'redis' instanceof \Illuminate\Redis\Database,
             'auth.password' instanceof \Illuminate\Auth\Passwords\PasswordBrokerManager,
             'auth.password.broker' instanceof \Illuminate\Auth\Passwords\PasswordBroker,
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,
@@ -400,6 +412,7 @@ namespace PHPSTORM_META {
             'files' instanceof \Illuminate\Filesystem\Filesystem,
             'filesystem' instanceof \Illuminate\Filesystem\FilesystemManager,
             'filesystem.disk' instanceof \Illuminate\Filesystem\FilesystemAdapter,
+            'filesystem.cloud' instanceof \Illuminate\Filesystem\FilesystemAdapter,
             'Illuminate\Notifications\ChannelManager' instanceof \Illuminate\Notifications\ChannelManager,
             'session' instanceof \Illuminate\Session\SessionManager,
             'session.store' instanceof \Illuminate\Session\Store,
@@ -410,6 +423,8 @@ namespace PHPSTORM_META {
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
+            'App\Services\CloudService' instanceof \App\Services\CloudService,
+            'App\Services\TagsService' instanceof \App\Services\TagsService,
             'LaravelDoctrine\ORM\Configuration\Cache\CacheManager' instanceof \LaravelDoctrine\ORM\Configuration\Cache\CacheManager,
             'LaravelDoctrine\ORM\Configuration\MetaData\MetaDataManager' instanceof \LaravelDoctrine\ORM\Configuration\MetaData\MetaDataManager,
             'LaravelDoctrine\ORM\Configuration\Connections\ConnectionManager' instanceof \LaravelDoctrine\ORM\Configuration\Connections\ConnectionManager,
@@ -494,6 +509,7 @@ namespace PHPSTORM_META {
             'command.queue.listen' instanceof \Illuminate\Queue\Console\ListenCommand,
             'queue.listener' instanceof \Illuminate\Queue\Listener,
             'queue.failer' instanceof \Illuminate\Queue\Failed\DatabaseFailedJobProvider,
+            'redis' instanceof \Illuminate\Redis\Database,
             'auth.password' instanceof \Illuminate\Auth\Passwords\PasswordBrokerManager,
             'auth.password.broker' instanceof \Illuminate\Auth\Passwords\PasswordBroker,
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,

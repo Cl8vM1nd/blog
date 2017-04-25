@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * NewsTags
  *
  * @ORM\Table(name="news_tags", indexes={@ORM\Index(name="news_tags_news_id_foreign", columns={"news_id"}), @ORM\Index(name="news_tags_tag_id_foreign", columns={"tag_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Entities\Repository\NewsTagsRepository")
  */
 class NewsTags
 {

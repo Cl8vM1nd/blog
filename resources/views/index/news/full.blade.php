@@ -14,13 +14,13 @@
       <div class="title">{{$article->getTitle()}}</div>
       <div class="content">{{$article->getContent()}}</div>
       <div class="tags">
-         @if(count($article->getTags()) > 1)
+         @if(count($article->getTags()) >= 1)
             TAGS:
             @foreach($news = $article->getTags()->toArray() as $tag)
                @if($news[count($news) - 1] == $tag)
-                  <a href="/news/search/tag/{{$tag->getTag()->getId()}}">{{$tag->getTag()->getName()}}</a>
+                  <a href="{{route('news.search.byTag', $tag->getTag()->getId())}}">{{$tag->getTag()->getName()}}</a>
                @else
-                  <a href="/news/search/tag/{{$tag->getTag()->getId()}}">{{$tag->getTag()->getName()}}</a>,
+                  <a href="{{route('news.search.byTag', $tag->getTag()->getId())}}">{{$tag->getTag()->getName()}}</a>,
                @endif
             @endforeach
          @endif

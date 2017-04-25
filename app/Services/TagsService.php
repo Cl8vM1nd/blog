@@ -7,10 +7,13 @@ namespace App\Services;
 use App\Entities\News;
 use App\Entities\NewsTags;
 use App\Entities\Tag;
+use App\Http\Controllers\Admin\NewsController;
 use Doctrine\ORM\EntityManager;
 
 class TagsService
 {
+    const TAG_CACHE_KEY = 'sidebar_tags_list';
+
     /**
      * @var EntityManager
      */
@@ -48,6 +51,7 @@ class TagsService
                 $this->em->flush();
             }
         }
+        $this->calculateTagsCount();
     }
 
     /**
@@ -120,9 +124,32 @@ class TagsService
         return $news;
     }
 
-    public function getTagList()
+    /**
+     * @return array
+     */
+    public function calculateTagsCount() : array
     {
         $tags = [];
         $tagsArray = $this->tagRepo->findAll();
+        foreach ($tagsArray as $tag) {
+            if ($tagCount = $this->newsTagsRepo->findTagCount($tag->getId())) {
+                array_push($tags, sprintf('<a href="' . route('news.search.byTag', $tag->getId()) . '">%s(%s)</a>', $tag->getName(), $tagCount));
+            }
+        }
+        \Cache::forever(TagsService::TAG_CACHE_KEY, implode(',', $tags));
+        return $tags;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTagList() : array
+    {
+        if (\Cache::has(TagsService::TAG_CACHE_KEY)) {
+                return explode(',', \Cache::get(TagsService::TAG_CACHE_KEY));
+        } else {
+            \Log::debug('yes');
+            return $this->calculateTagsCount();
+        }
     }
 }

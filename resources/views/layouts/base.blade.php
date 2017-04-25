@@ -21,6 +21,12 @@
             @yield('content')
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-sm-12" id="footer">
+            © Copyright 2017. All Rights Reserved.</br> Created with love. Inspired by Kate.<i class="im im-heart"></i>
+        </div>
+    </div>
 </div>
 
 <script src="/vendor/jquery/dist/jquery.js"></script>

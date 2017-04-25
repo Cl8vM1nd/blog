@@ -14,9 +14,11 @@
     <a href=""><i class="im im-vk"></i></a>
     <a href=""><i class="im im-twitter"></i></a>
     <a href=""><i class="im im-facebook"></i></a>
-    <a href=""><i class="im im-instagram"></i></a>
+    <a href="https://instagram.com/ilyaandkate" target="_blank"><i class="im im-instagram"></i></a>
 </div>
 <div class="tags">
     <div class="title">Tags</div>
-
+    @foreach($tags->getTagList() as $tag)
+        {!! $tag !!} </br>
+    @endforeach
 </div>

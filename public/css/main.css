@@ -195,6 +195,18 @@ body {
     color: #444444;;
 }
 
+.sidebar .tags a {
+    font-size: 11pt;
+    text-transform: uppercase;
+    font-family: 'Playfair', sans-serif;
+    letter-spacing: 4px;
+}
+
+#footer {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
 /***
 ****   MEDIA
 ****/
