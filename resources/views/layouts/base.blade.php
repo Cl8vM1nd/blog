@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
+@inject('ajax', 'App\Services\AjaxAuthService')
 @include('index.header')
     <div class="row">
         <div class="col-sm-3 sidebar">
@@ -20,6 +21,7 @@
         <div class="col-sm-9" id="content">
             @yield('content')
         </div>
+        <div id='spinner'><img src='/vendor/SVG-Loaders/svg-loaders/three-dots.svg' /></div>
     </div>
 
     <div class="row">

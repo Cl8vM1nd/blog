@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     /***************
      *
      * TEXT EDITOR
@@ -96,4 +95,20 @@ $(document).ready(function() {
             }
         }
     });
+
+    /**
+     * UPLOADING IMAGE
+     * */
+    $('#inputImage').on('change', function(e) {
+        var imageName = $(this).val();
+        var slash = imageName.lastIndexOf('\\') + 1;
+        var dot = imageName.lastIndexOf('.');
+
+        var name = imageName.substring(slash, dot);
+        /* Update image name if we add article */
+        if (window.location.pathname.indexOf('add')) {
+            $('#inputImageTitle').val(name);
+        }
+    });
+
 });

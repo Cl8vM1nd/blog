@@ -15,6 +15,7 @@ Route::get('/', ['uses' => 'Index\NewsController@index', 'as' => 'index']);
 
 Route::group(['prefix' => 'news', 'as' => 'news.'], function() {
     Route::get('/{id}', ['uses' => 'Index\NewsController@show', 'as' => 'show']);
+    Route::get('/more/{id}', ['uses' => 'Index\NewsController@getMoreNews', 'as' => 'more']);
 
     Route::group(['prefix' => 'search', 'as' => 'search.'], function () {
         Route::get('/tag/{id}', ['uses' => 'Index\NewsController@getNewsByTag', 'as' => 'byTag']);

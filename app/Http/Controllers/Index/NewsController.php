@@ -37,7 +37,7 @@ class NewsController extends BaseController
      */
     public function index()
     {
-        $news = $this->newsRepo->findAll();
+        $news = $this->newsRepo->findAll(News::NEWS_COUNT_PER_PAGE);
         return $this->renderView('index.index', ['news' => $news]);
     }
 
@@ -68,5 +68,22 @@ class NewsController extends BaseController
        $news = $this->tagService->getNewsByTag($tagId);
 
        return $this->renderView('index.index', ['news' => $news]);
+    }
+
+    /**
+     * @param Request $request
+     * @param int $offset
+     * @return mixed
+     */
+    public function getMoreNews(Request $request, int $offset)
+    {
+        if (\Request::ajax()) {
+            if(\Cookie::get('XSRF-TOKEN') !== csrf_token()) {
+                return abort(401, 'Bad Request');
+            }
+
+            $news = $this->newsRepo->findAll(News::NEWS_COUNT_PER_PAGE, $offset);
+            return $this->renderView('index.news.news-portion', ['news' => $news]);
+        }
     }
 }

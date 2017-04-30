@@ -2,12 +2,11 @@
 
 @section('content')
 @inject('cloud', 'App\Services\CloudService')
-
-
    @foreach($news as $article)
       <div class="article">
          <a href="/news/{{$article->getId()}}">
-            <div class="image"><img src="{{$cloud->getPublicUrl($article->getImage())}}" alt=""></div>
+            <div class="image">
+               <img class="news-image" src="{{$cloud->getPublicUrl($article->getImage())}}" alt=""></div>
          </a>
             <div class="block">
                <div class="title">{{$article->getTitle()}}</div>
@@ -30,5 +29,4 @@
             </div>
       </div>
    @endforeach
-
 @endsection

@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class News
 {
+    const NEWS_COUNT_PER_PAGE = 5;
     /**
      * @var integer
      *

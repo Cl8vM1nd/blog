@@ -121,6 +121,7 @@ body {
 #content .article .image {
     margin: 0 auto;
     width:100%;
+    height:100%;
 }
 
 #content .article .image img {
@@ -132,6 +133,8 @@ body {
     -ms-transition: all 400ms ease-in-out;
     -o-transition: all 400ms ease-in-out;
     transition: all 400ms ease-in-out;
+    background: url("../vendor/SVG-Loaders/svg-loaders/puff.svg")top center no-repeat;
+    background-size: contain;
 }
 #content .article .image-full img {
     width: 90%;
@@ -205,6 +208,11 @@ body {
 #footer {
     text-align: center;
     padding-bottom: 20px;
+}
+
+#spinner, #spinner img{
+    text-align: center;
+    margin-top: -55px;
 }
 
 /***

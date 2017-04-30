@@ -49,7 +49,7 @@
                 <input type="file" name="image" class="form-control" id="inputImage" placeholder="Image" >
             </div>
             <div class="col-sm-5">
-                <input type="text" name="imageTitle" class="form-control" id="inputTitle" placeholder="imageTitle" value="{{ $nImageTitle?? '' }}">
+                <input type="text" name="imageTitle" class="form-control" id="inputImageTitle" placeholder="imageTitle" value="{{ $nImageTitle?? '' }}">
             </div>
         </div>
 
