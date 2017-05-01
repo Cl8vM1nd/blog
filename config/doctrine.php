@@ -155,8 +155,8 @@ return [
     |
     */
     'cache'                      => [
-        'default'      => env('DOCTRINE_CACHE', 'array'),
-        'namespace'    => null,
+        'default'      => env('DOCTRINE_CACHE', 'memcached'),
+        'namespace'    => 'doctrine::',
         'second_level' => false,
     ],
     /*

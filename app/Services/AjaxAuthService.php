@@ -11,23 +11,14 @@ class AjaxAuthService
 
     const USER_ID = 'user_id';
     const USER_AUTH_HASH = 'user_auth_hash';
+    const USER_AUTH_TOKEN = 'user_auth_token';
     const USER_HASH_LENGTH = 45;
+
+    protected $userId;
 
     protected $authToken;
 
     protected $authHash;
-
-    /**
-     * AjaxAuthService constructor.
-     */
-    public function __construct()
-    {
-        if (!session()->has(AjaxAuthService::USER_ID)) {
-            session([AjaxAuthService::USER_ID => $this->getRandUserId()]);
-        }
-
-        $this->generateHash();
-    }
 
     /**
      * @return int
@@ -53,46 +44,56 @@ class AjaxAuthService
     /**
      * @return mixed
      */
-    protected function getUserId()
+    public function getUserId()
     {
-        return session(AjaxAuthService::USER_ID);
+        if (!\Session::has(AjaxAuthService::USER_ID)) {
+            \Log::debug('no');
+            \Session::set(AjaxAuthService::USER_ID, $this->getRandUserId());
+        }
+        return \Session::get(AjaxAuthService::USER_ID);
     }
 
     /**
      * @return mixed
      */
-    protected function getAuthHash()
+    public function getAuthHash()
     {
-        \Log::debug( ' AuthHash:' . session(AjaxAuthService::USER_AUTH_HASH));
-        return session(AjaxAuthService::USER_AUTH_HASH);
-    }
-
-    protected function saveAuthHash()
-    {
-        session([AjaxAuthService::USER_AUTH_HASH => $this->authHash]);
-        return $this->getAuthHash();
+        \Log::debug( ' AuthHash:' . \Session::get(AjaxAuthService::USER_AUTH_HASH));
+        return \Session::get(AjaxAuthService::USER_AUTH_HASH);
     }
 
     /**
-     * @param bool $update
-     * @return mixed|string
+     * @return mixed
      */
-    public function generateHash(bool $update = false)
+    public function getAuthToken()
     {
-        $this->generateNewHash();
-        if (session()->has(AjaxAuthService::USER_AUTH_HASH) && $update) {
-            return $this->saveAuthHash();
-        } else if(!session()->has(AjaxAuthService::USER_AUTH_HASH)) {
-            return $this->saveAuthHash();
-        } else {
-            return $this->getAuthHash();
-        }
+        \Log::debug( ' AuthHash:' . \Session::get(AjaxAuthService::USER_AUTH_TOKEN));
+        return \Session::get(AjaxAuthService::USER_AUTH_TOKEN);
     }
 
-    protected function generateNewHash()
+    /**
+     * @param bool $returnCredentials
+     * @return mixed|string
+     */
+    public function generateHash(bool $returnCredentials = false)
     {
-        $this->authToken = encrypt(AjaxAuthService::GUID . time());
-        $this->authHash = substr(encrypt($this->getUserId() . $this->authToken . AjaxAuthService::SALT), 0, AjaxAuthService::USER_HASH_LENGTH);
-        \Log::debug('userId:' . $this->getUserId() . ' - authToken:' . $this->authToken . "\n");
+        $this->authToken = \Hash::make(AjaxAuthService::GUID . time());
+        $this->authHash = \Hash::make($this->getUserId() . $this->authToken . AjaxAuthService::SALT);
+        \Session::set(AjaxAuthService::USER_AUTH_TOKEN, $this->authToken);
+        \Session::set(AjaxAuthService::USER_AUTH_HASH, $this->authHash);
+
+        if ($returnCredentials) {
+            return $this->authToken;
+        }
+        \Log::debug('userId:' . $this->getUserId() . ' - authToken:' . $this->authToken . "\n" . 'AuthHash - ' . $this->authHash);
+    }
+
+    /**
+     * @param string $hash
+     * @return bool
+     */
+    public function checkHash(string $hash)
+    {
+        return \Hash::check($hash . AjaxAuthService::SALT, $this->getAuthHash());
     }
 }

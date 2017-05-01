@@ -16,4 +16,15 @@ class NewsRepository extends EntityRepository
     {
         return $this->findBy(array(), array('id' => 'DESC'), $limit, $offset);
     }
+
+    /**
+     * @return mixed
+     */
+    public function findNewsCount()
+    {
+        return $this->createQueryBuilder('n')
+            ->select('COUNT(n.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

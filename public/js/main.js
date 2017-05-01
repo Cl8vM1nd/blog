@@ -1,37 +1,42 @@
 $(document).ready(function() {
     var moreNewsUrl = '/news/more/';
-    var newsPerPage = 5;
+    var newsPerPage = 2;
     var offsetNews = newsPerPage;
     var noNews = false;
-    var block = false;
+    var onProcess = false;
 
     $(window).scroll(function() {
         if($(window).scrollTop() + $(window).height() > $(document).height() - 1) {
-            if (!block) {
+                $.ajaxSetup({
+                    headers: {
+                        'Auth': $('input[name="ui"]').val() + $('input[name="at"]').val()
+                    }
+                });
+
+            if(!noNews && !onProcess) {
                 $.ajax({
                     type: "GET",
                     beforeSend: function () {
-                        block = true;
-                        if (!noNews) {
                             $('#spinner').fadeIn(400);
-                        }
+                            onProcess = true;
                     },
                     url: moreNewsUrl + offsetNews,
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        alert("Error. Please try again. " + textStatus);
+                        console.log("Error. Please try again.");
                     },
                     success: function (data) {
-                        if (data == '') {
-                            $('#spinner').fadeOut(400);
+                        if (data == 'null') {
+                            $('#spinner').hide(400);
                             noNews = true;
                         } else {
-                            $(data).appendTo('#content');
+                            $('input[name="at"]').val(data[1]);
+                            $(data[0]).appendTo('#content');
                             $('#spinner').fadeOut(400);
 
                             offsetNews += newsPerPage;
                             noNews = false;
                         }
-                        block = false;
+                        onProcess = false;
                     }
                 });
             }

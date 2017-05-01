@@ -40,4 +40,15 @@ class EntityRepository extends DefaultEntityRepository
     {
         return is_object($entity) && get_class($entity) === $this->getClassName() ? $entity : $this->findById($entity);
     }
+
+    /**
+     * @param string $anchor
+     * @return mixed
+     */
+    public function createBlogQueryBuilder(string $anchor)
+    {
+        $qb = $this->createQueryBuilder($anchor);
+        $qb->setResultCacheLifetime(3600);
+        return $qb;
+    }
 }

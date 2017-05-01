@@ -5,6 +5,7 @@
 namespace App\Http\Controllers\Index;
 
 use App\Entities\News;
+use App\Services\AjaxAuthService;
 use App\Services\TagsService;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Http\Request;
@@ -15,15 +16,19 @@ class NewsController extends BaseController
 
     protected $tagService;
 
+    protected $ajaxAuthService;
+
     /**
      * BaseController constructor.
      * @param EntityManager $entityManager
      * @param TagsService $tagsService
+     * @param AjaxAuthService $ajaxAuthService
      */
-    public function __construct(EntityManager $entityManager, TagsService $tagsService)
+    public function __construct(EntityManager $entityManager, TagsService $tagsService, AjaxAuthService $ajaxAuthService)
     {
         $this->em = $entityManager;
         $this->tagService = $tagsService;
+        $this->ajaxAuthService = $ajaxAuthService;
         $this->initRepos();
     }
 
@@ -38,6 +43,8 @@ class NewsController extends BaseController
     public function index()
     {
         $news = $this->newsRepo->findAll(News::NEWS_COUNT_PER_PAGE);
+        $this->ajaxAuthService->generateHash();
+
         return $this->renderView('index.index', ['news' => $news]);
     }
 
@@ -70,6 +77,7 @@ class NewsController extends BaseController
        return $this->renderView('index.index', ['news' => $news]);
     }
 
+
     /**
      * @param Request $request
      * @param int $offset
@@ -82,8 +90,26 @@ class NewsController extends BaseController
                 return abort(401, 'Bad Request');
             }
 
+            // If reach max news
+            if ($offset > $this->newsRepo->findNewsCount()) {
+                return 'null';
+            }
+
+            // Check if auth hash is ok
+            if(!$this->ajaxAuthService->checkHash($request->header('Auth'))) {
+                return abort(401, 'Bad Request');
+            }
+
             $news = $this->newsRepo->findAll(News::NEWS_COUNT_PER_PAGE, $offset);
-            return $this->renderView('index.news.news-portion', ['news' => $news]);
+
+            $view = $this->renderView('index.news.news-portion', [
+                'news' => $news,
+                'at'   => $this->ajaxAuthService->generateHash(true)
+            ])->render();
+
+            return [$view, $this->ajaxAuthService->generateHash(true)];
+        } else {
+            return abort(401, 'Bad Request');
         }
     }
 }

@@ -22,6 +22,8 @@
             @yield('content')
         </div>
         <div id='spinner'><img src='/vendor/SVG-Loaders/svg-loaders/three-dots.svg' /></div>
+        <input type="hidden" name="ui" value="{{$ajax->getUserId()}}" />
+        <input type="hidden" name="at" value="{{$ajax->getAuthToken()}}" />
     </div>
 
     <div class="row">

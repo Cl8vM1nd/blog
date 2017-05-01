@@ -37,6 +37,34 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment() !== 'production') {
             $this->app->register(IdeHelperServiceProvider::class);
         }
+
+        $this->app->singleton('Doctrine\ORM\EntityManager', function ($app) {
+            // Retrieve our configuration.
+            $config = $app['config'];
+         //   $connection = $config->get('laravel-doctrine::doctrine.connection');
+            $devMode = false;//$config->get('app.debug');
+
+            $cache = null; // Default, let Doctrine decide.
+
+            if (!$devMode) {
+                $cache_config = $config->get('laravel-doctrine::doctrine.cache');
+                $cache_provider = $cache_config['provider'];
+                $cache_provider_config = $cache_config[$cache_provider];
+
+                switch ($cache_provider) {
+                    case 'memcache':
+                        if (extension_loaded('memcache')) {
+                            $memcache = new \Memcache();
+                            $memcache->connect($cache_provider_config['host'], $cache_provider_config['port']);
+                            $cache = new \Doctrine\Common\Cache\MemcacheCache();
+                            $cache->setMemcache($memcache);
+                        }
+                        break;
+                }
+
+            }
+        });
+
         $this->registerServices();
     }
 
