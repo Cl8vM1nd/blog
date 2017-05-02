@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Entities\Admin;
 use App\Entities\User;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class AccountController extends AdminBaseController
@@ -27,29 +26,58 @@ class AccountController extends AdminBaseController
 
     /**
      * @param Request $request
+     * @return mixed
      */
     public function postLogin(Request $request)
     {
-        $this->validate($request, [
+        $validator = \Validator::make($request->all(), [
             'email' => 'required|exists:App\Entities\Admin,email',
             'password' => 'required|string'
         ]);
 
+        if ($validator->fails()) {
+            return $this->returnErrors($request);
+        }
+
         /** @var User $account */
         $account = \EntityManager::getRepository(Admin::class)->findOneBy(['email' => $request->input('email')]);
 
-        if (!password_verify($request->input('password'), $account->getPassword())) {
-            return redirect('admin/login')
-                ->withErrors(['errors' => 'Login or Password invalid.'])
-                ->withInput();
+        if (!\Hash::check($request->input('password'),$account->getPassword())) {
+            return $this->returnErrors($request);
         }
 
         if (\Auth::guard('admin')->attempt([
-                'email' => $request->input('email'), 'password' => $request->input('password')
+                'email' => $request->input('email'),
+                'password' => $request->input('password')
             ])) {
 
             return redirect()->route('admin::index');
         }
 
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    protected function returnErrors(Request $request)
+    {
+        $this->unauthorizedLogin($request);
+        return redirect('admin/login')
+            ->withErrors(['errors' => 'Login or Password invalid.'])
+            ->withInput();
+    }
+
+    /**
+     * @param Request $request
+     */
+    protected function unauthorizedLogin(Request $request)
+    {
+        $message = 'Unauthorized access!Email: ' . $request->input('email')
+            . ', password: ' . $request->input('password') . "\n"
+            . 'User-Agent: ' . $request->header('User-Agent')
+            . "\nIP: " . $request->ip();
+        \Log::debug($message);
+        mail('clevmind@yandex.ru', 'Unauthorized Access', $message);
     }
 }

@@ -28,5 +28,6 @@
                </div>
             </div>
       </div>
+      <hr class="style-seven">
    @endforeach
 @endsection
