@@ -56,10 +56,6 @@
         <div class="form-group">
             <label for="text-editor-content"  class="col-sm-2 control-label form-label">Content</label>
             <div class="col-sm-10">
-                {{--EDITOR--}}
-                <button type="button" class="text-editor-button" id="text-editor-b">B</button>
-                <button type="button" class="text-editor-button" id="text-editor-i">I</button>
-                <button type="button" class="text-editor-button" id="text-editor-u">U</button>
                 <a id="demo01" href="#animatedModal"><button type="button" class="text-editor-button" id="text-editor-img">img</button></a>
                 <textarea class="form-control" name="content" id="text-editor-content" placeholder="Content" rows="15" >{{ $nContent ?? ''}}</textarea>
             </div>

@@ -68,6 +68,8 @@
 <script src="/vendor/animatedmodal/animatedModal.js"></script>
 <script src="/vendor/bootstrap/dist/js/bootstrap.js"></script>
 <script src="/vendor/bootstrap-tagsinput/src/bootstrap-tagsinput.js"></script>
+<script src="/vendor/tinymce/js/tinymce/tinymce.min.js?apiKey=40b8nqna5xe98q4xvjm66l4c6v708i2s20zpgcsyr1aeltet"></script>
 <script src="/js/admin.js"></script>
+
 </body>
 </html>

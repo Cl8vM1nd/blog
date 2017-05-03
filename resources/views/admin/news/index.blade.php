@@ -6,9 +6,6 @@
     <div class="newsAction">
         <a href="{{ route('admin::news.add') }}"><img src="/img/news.add.png" alt="addNews"></a>
     </div>
-   {{-- <div class="newsAction">
-        <a href="{{ route('admin::news.edit') }}"><img src="/img/news.edit.png" alt="editNews"></a>
-    </div>--}}
 </div>
 
 <div class="row">
@@ -33,7 +30,7 @@
                             {{ $item->getTitle(20) }}
                         </td>
                         <td>
-                            {{ strip_tags($item->getContent(120)) }}
+                            {{ $item->getContent(120, ['all']) }}
                         </td>
                         <td>
                             <a href="{{\Cloud::getPublicUrl($item->getImage())}}" target="_blank"><img src="{{ \Cloud::getPublicUrl($item->getImage()) }}" width="100px"></a>
@@ -62,5 +59,10 @@
             </tr>
             @endif
     </table>
+</div>
+<div class="row">
+    <div class="col-sm-2 col-sm-offset-5">
+        {{ $news->links() }}
+    </div>
 </div>
 @endsection

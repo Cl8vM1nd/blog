@@ -42,15 +42,14 @@ class NewsController extends AdminBaseController
 
 
     /**
+     * @param Request $request
      * @return \Illuminate\Contracts\View\View
      */
-    public function getNews()
+    public function getNews(Request $request)
     {
-        $news = $this->newsRepo->findBy([], ['id' => 'DESC']);
-
         return $this->renderView('admin.news.index', [
             'title' => 'News',
-            'news'  => $news
+            'news'  => $this->newsRepo->newsPaginate(News::NEWS_ADMIN_COUNT_PER_PAGE, $request->input('page'))
         ]);
     }
 

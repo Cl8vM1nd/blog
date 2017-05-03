@@ -6,8 +6,8 @@
          <div class="image"><img src="{{$cloud->getPublicUrl($article->getImage())}}" alt=""></div>
       </a>
          <div class="block">
-            <div class="title">{{$article->getTitle()}}</div>
-            <div class="content">{{$article->getContent(360)}}</div>
+            <div class="title">{!! $article->getTitle() !!}</div>
+            <div class="content">{!! $article->getContent(360, ['img']) !!}</div>
             <div class="tags">
                @if(count($article->getTags()) >= 1)
                   TAGS:
@@ -23,7 +23,10 @@
             <div class="date">
                <i class="fa fa-calendar"><span>{{$article->getCreatedAt()->format('d-m-Y')}}</span></i>
             </div>
+            {{--<div class="count">
+               <i class="im im-eye"></i>
+            </div>--}}
          </div>
    </div>
-   <hr class="style-seven">
+      <hr class="style-seven">
 @endforeach

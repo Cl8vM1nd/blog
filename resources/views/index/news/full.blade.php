@@ -11,8 +11,8 @@
 <div class="article">
    <div class="image-full"><img src="{{$cloud->getPublicUrl($article->getImage())}}" alt=""></div>
    <div class="block">
-      <div class="title">{{$article->getTitle()}}</div>
-      <div class="content">{{$article->getContent()}}</div>
+      <div class="title">{!! $article->getTitle() !!}</div>
+      <div class="content">{!! $article->getContent() !!}</div>
       <div class="tags">
          @if(count($article->getTags()) >= 1)
             TAGS:

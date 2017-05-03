@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class News
 {
     const NEWS_COUNT_PER_PAGE = 5;
+    const NEWS_ADMIN_COUNT_PER_PAGE = 10;
     /**
      * @var integer
      *
@@ -126,12 +127,13 @@ class News
 
     /**
      * @param int $length
+     * @param array $tagsToRemove
      * @return string
      */
-    public function getContent(int $length = null): string
+    public function getContent(int $length = null, array $tagsToRemove = []): string
     {
         if ($length) {
-            return sprintf('%s...', substr($this->content, 0, $length));
+            return sprintf('%s...', substr($tagsToRemove ? $this->tagsRemove($tagsToRemove) : $this->content, 0, $length));
         }
         return $this->content;
     }
@@ -190,6 +192,25 @@ class News
     public function setTags($tags)
     {
         $this->tags = $tags;
+    }
+
+    /**
+     * @param array $tags
+     * @return string
+     */
+    protected function tagsRemove(array $tags) : string
+    {
+        foreach ($tags as $tag) {
+            switch ($tag) {
+                case 'img' :
+                    $this->content = preg_replace('/<img[a-zA-Z -_!@#$%^&*()_+=.,~]+\/>|<img[a-zA-Z -_!@#$%^&*()_+=.,~]+/', '', $this->content);
+                    break;
+                case 'all':
+                    $this->content = strip_tags($this->content);
+                    break;
+            }
+        }
+        return $this->content;
     }
 }
 

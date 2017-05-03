@@ -216,6 +216,7 @@ textarea {
     display: block; !important;
 }
 
+
 /** MEDIA */
 @media only screen and (max-width: 768px) {
     .admin-panel-left {

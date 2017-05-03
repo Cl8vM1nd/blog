@@ -189,6 +189,17 @@ blockquote {
     font-family: 'Playfair', sans-serif;
 }
 
+#content .article .block .count {
+    float: right;
+    position: relative;
+    top: -26px;
+}
+
+#content .article .block .count .im-eye
+{
+    font: normal normal normal 14px/1 'iconmonstr-iconic-font' !important;
+}
+
 #content .breadcrumbs {
     margin: -55px 0 10px;
     font-size: 12pt;
@@ -231,6 +242,8 @@ hr.style-seven {
     opacity: 0.5;
     width:150px;
 }
+
+
 
 /***
 ****   MEDIA
