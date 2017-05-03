@@ -50,6 +50,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin::', 'namespace' => 'Admin'], f
 
             Route::post('/save', ['uses' => 'NewsController@saveNews', 'as' => 'save']);
             Route::post('/update', ['uses' => 'NewsController@updateNews', 'as' => 'update']);
+            Route::post('/upload', ['uses' => 'NewsController@uploadImage', 'as' => 'image.upload']);
 
             Route::get('/view/{id}', ['uses' => 'NewsController@viewNews', 'as' => 'view']);
             Route::get('/edit/{id}', ['uses' => 'NewsController@editNews', 'as' => 'edit']);

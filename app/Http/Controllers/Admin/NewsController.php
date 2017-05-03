@@ -201,4 +201,13 @@ class NewsController extends AdminBaseController
     {
         $this->tagsService->detachTagFromArticle($id, $request->input('tag'));
     }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function uploadImage(Request $request)
+    {
+        return response()->json(['location' => $this->cloudService->uploadNews($request->file->getPathName(), $request->file->getClientOriginalName(), true)]);
+    }
 }

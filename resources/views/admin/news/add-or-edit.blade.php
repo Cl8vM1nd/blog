@@ -7,17 +7,6 @@
     </div>
 </div>
 
-<div id="animatedModal">
-    <!--THIS IS IMPORTANT! to close the modal, the class name has to match the name given on the ID  class="close-animatedModal" -->
-    <div class="close-animatedModal">
-        CLOSE MODAL
-    </div>
-
-    <div class="modal-content">
-        <!--Your modal content goes here-->
-    </div>
-</div>
-
 <div class="row">
     {{ Form::open(array('route' => $action, 'method' => 'post', 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data')) }}
 
@@ -56,7 +45,6 @@
         <div class="form-group">
             <label for="text-editor-content"  class="col-sm-2 control-label form-label">Content</label>
             <div class="col-sm-10">
-                <a id="demo01" href="#animatedModal"><button type="button" class="text-editor-button" id="text-editor-img">img</button></a>
                 <textarea class="form-control" name="content" id="text-editor-content" placeholder="Content" rows="15" >{{ $nContent ?? ''}}</textarea>
             </div>
         </div>

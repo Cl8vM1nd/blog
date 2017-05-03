@@ -17,12 +17,29 @@ class CloudService
      */
     protected $baseUrl = 'https://storage.googleapis.com/clevmind-blog/';
 
+    protected $newsTempUrl = 'news_temp/';
+
     /**
      * CloudService constructor.
      */
     public function __construct()
     {
         $this->gc = \Storage::cloud();
+    }
+
+    /**
+     * @param string $path
+     * @param string $name
+     * @param bool $returnUrl
+     * @param bool $override
+     * @return string
+     */
+    public function uploadNews(string $path, string $name, $returnUrl = false, bool $override = true)
+    {
+        $this->upload($path, $this->newsTempUrl . $name, $override = true);
+        if ($returnUrl) {
+            return $this->getPublicUrl($this->newsTempUrl . $name);
+        }
     }
 
     /**

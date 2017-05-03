@@ -1,46 +1,4 @@
 $(document).ready(function() {
-    /***************
-     *
-     * TEXT EDITOR
-     *
-     * ******************/
-
-    var editor = $('#text-editor-content');
-
-    // <b>
-    $('#text-editor-b').on('click', function(e) {
-        editor.val(editor.val() + "<b></b>");
-    });
-
-    // <i>
-    $('#text-editor-i').on('click', function(e) {
-        editor.val(editor.val() + "<i></i>");
-    });
-
-    // <u>
-    $('#text-editor-u').on('click', function(e) {
-        editor.val(editor.val() + "<u></u>");
-    });
-
-    // <img>
-   /* $('#text-editor-img').on('click', function(e) {
-        $('#' + $(this).attr('id') + '-modal').modal({
-            closeClass: 'icon-remove',
-            fadeDuration: 250,
-            width: '500px'
-        });
-        return false;
-    });*/
-
-    $("#demo01").animatedModal();
-
-
-    /***************
-     *
-     * TEXT EDITOR
-     *
-     * ******************/
-
     $('.news-delete').on('click', function(e) {
         e.preventDefault();
         var url = $(this).attr('href');
@@ -116,23 +74,50 @@ $(document).ready(function() {
      * Tinymce Settings
      * */
 
-    var tinyEditor = tinymce.init({
+    var upload_path = '/admin/news/upload';
+
+    tinymce.init({
         selector: 'textarea',
         menubar: false,
+        image_title: true,
+        automatic_uploads: true,
+        images_upload_url: upload_path,
+        file_picker_types: 'image',
+        images_upload_credentials: true,
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
             'searchreplace visualblocks code fullscreen',
             'insertdatetime media table contextmenu paste code'
         ],
-        toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | upload',
-        setup: function (editor) {
-            editor.addButton('upload', {
-                text: 'Upload image',
-                icon: false,
-                onclick: function () {
+        toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | code',
+        file_picker_callback: function (cb, value, meta) {
+            var input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*');
 
-                    editor.insertContent('&nbsp;<b>It\'s my button!</b>&nbsp;');
-                }
-            });
-        }});
+            // Note: In modern browsers input[type="file"] is functional without
+            // even adding it to the DOM, but that might not be the case in some older
+            // or quirky browsers like IE, so you might want to add it to the DOM
+            // just in case, and visually hide it. And do not forget do remove it
+            // once you do not need it anymore.
+
+            input.onchange = function () {
+                var file = this.files[0];
+
+                // Note: Now we need to register the blob in TinyMCEs image blob
+                // registry. In the next release this part hopefully won't be
+                // necessary, as we are looking to handle it internally.
+                var id = (new Date()).getTime();
+                var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                var blobInfo = blobCache.create(id, file);
+                blobCache.add(blobInfo);
+
+                // call the callback and populate the Title field with the file name
+                cb(blobInfo.blobUri(), {title: file.name});
+            };
+
+            input.click();
+        }
+
+    });
 });
