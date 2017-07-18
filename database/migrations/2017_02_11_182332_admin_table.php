@@ -20,6 +20,12 @@ class AdminTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        DB::table('admin') ->insert([
+          'name' => 'ClevMind',
+          'email' => 'admin@blog.me',
+          'password' => bcrypt('123456')
+        ]);
     }
 
     /**
