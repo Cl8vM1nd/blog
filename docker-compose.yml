@@ -1,0 +1,39 @@
+version: '2'
+services:
+    # MYSQL
+    mysql:
+        image: mysql:5.7
+        container_name: mysql
+        env_file:
+            - ./dev/mysql.env
+        volumes:
+            - ./storage/mysql:/var/lib/mysql
+        networks:
+            - clevmind-network
+    # NGINX
+    web:
+      image: my-blog:latest
+      container_name: blog
+      ports:
+       - "8081:80"
+      volumes:
+       - ./website:/var/www/html
+       - ./storage/app:/var/www/html/storage/app
+       - ./storage/logs:/var/www/html/storage/logs
+      links:
+        - mysql
+        - redis
+      networks:
+        - clevmind-network
+    # REDIS
+    redis:
+      container_name: redis
+      image: redis:latest
+      ports:
+        - "6379:6379"
+      networks:
+          - clevmind-network
+
+networks:
+    clevmind-network:
+        external: true

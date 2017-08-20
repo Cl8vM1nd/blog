@@ -1,0 +1,16 @@
+#Directories
+/node_modules
+/public/storage
+/storage/*.key
+/storage/*.p12
+/vendor
+.idea
+
+#Files
+Homestead.json
+Homestead.yaml
+.env
+yarn.lock
+.phpstorm.meta.php
+_ide_helper.php
+_ide_helper_models.php

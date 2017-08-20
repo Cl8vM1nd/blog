@@ -1,0 +1,11 @@
+version: '3'
+services:
+  mysql:
+    ports:
+     - "3306:3306"
+    image: mysql:5.6
+    environment:
+            MYSQL_ROOT_PASSWORD: secret
+    container_name: mysql
+    #volumes:
+    # - /website:/var/www/blog
