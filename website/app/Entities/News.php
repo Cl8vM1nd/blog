@@ -16,6 +16,7 @@ class News
 {
     const NEWS_COUNT_PER_PAGE = 5;
     const NEWS_ADMIN_COUNT_PER_PAGE = 10;
+    const LOCAL_PATH = '/news/images';
     /**
      * @var integer
      *

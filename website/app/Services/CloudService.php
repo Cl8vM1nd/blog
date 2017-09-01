@@ -1,8 +1,10 @@
 <?php
-# CrEaTeD bY FaI8T IlYa      
+# CrEaTeD bY FaI8T IlYa
 # 2017
 namespace App\Services;
 
+use App\Entities\News;
+use App\Http\Controllers\Admin\NewsController;
 use \Illuminate\Contracts\Filesystem\Filesystem as Visibility;
 
 class CloudService
@@ -77,7 +79,8 @@ class CloudService
      */
     public function getPublicUrl(string $name)
     {
-        return $this->baseUrl . $name;
+        //return $this->baseUrl . $name;
+        return \URL::to('/') . News::LOCAL_PATH . '/' . $name;
     }
 
     /**

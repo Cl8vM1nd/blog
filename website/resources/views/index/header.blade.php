@@ -9,9 +9,9 @@
 
     <div class="row caption-row">
         <div class="col-xs-12 caption">
-            <h3>Blog</h3>
+
             <div>
-                <blockquote>Molon Labe</blockquote>
+                <blockquote>Searching for pieces of knowledge.</blockquote>
             </div>
         </div>
     </div>

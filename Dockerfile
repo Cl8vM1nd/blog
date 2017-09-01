@@ -58,13 +58,13 @@ RUN npm install -g bower
 #RUN composer install
 
 # Create website folder
-#RUN mkdir -p /var/www/html
+RUN mkdir -p /var/www/blog
 
 # Copy website files
-COPY ./website /var/www/html
-COPY ./dev/nginx/default /etc/nginx/sites-enabled/default
+COPY ./website /var/www/blog
+COPY ./dev/nginx/blog /etc/nginx/sites-enabled/blog
 
-WORKDIR /var/www/html
+WORKDIR /var/www/blog
 
 RUN chown -R www-data:www-data .
 RUN find . -type d -exec chmod 755 {} \;

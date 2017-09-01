@@ -17,9 +17,9 @@ services:
       ports:
        - "8081:80"
       volumes:
-       - ./website:/var/www/html
-       - ./storage/app:/var/www/html/storage/app
-       - ./storage/logs:/var/www/html/storage/logs
+       - ./website:/var/www/blog
+       - ./storage/app:/var/www/blog/storage/app
+       - ./storage/logs:/var/www/blog/storage/logs
       links:
         - mysql
         - redis

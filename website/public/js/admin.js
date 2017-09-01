@@ -2,14 +2,8 @@ $(document).ready(function() {
     $('.news-delete').on('click', function(e) {
         e.preventDefault();
         var url = $(this).attr('href');
-        if (confirm('Are u shure u want to delete item "' + $(this).attr('id') + '"?')) {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $(this).attr('_token')
-                }
-            });
-
-            $.post({
+        if (confirm('Are u sure u want to delete item "' + $(this).attr('id') + '"?')) {
+            $.ajax({
                 type: "POST",
                 url: url,
                 success: function(response) {

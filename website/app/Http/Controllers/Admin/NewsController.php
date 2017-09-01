@@ -1,6 +1,6 @@
 <?php
-# CrEaTeD bY FaI8T IlYa      
-# 2017  
+# CrEaTeD bY FaI8T IlYa
+# 2017
 
 namespace App\Http\Controllers\Admin;
 
@@ -80,7 +80,8 @@ class NewsController extends AdminBaseController
 
 
         $imageName = $request->input('imageTitle') . '.' . $request->image->extension();
-        $this->cloudService->upload($request->image->getPathName(), $imageName);
+        $request->file('image')->storeAs(News::LOCAL_PATH, $imageName);
+        #$this->cloudService->upload($request->image->getPathName(), $imageName);
 
         $article = new News($request->input('title'), $imageName, $request->input('content'));
         $this->em->persist($article);
@@ -114,7 +115,8 @@ class NewsController extends AdminBaseController
 
         if ($request->input('image')) {
             $imageName = $request->input('imageTitle') . '.' . $request->image->extension();
-            $this->cloudService->upload($request->image->getPathName(), $imageName);
+            $request->file('image')->storeAs(News::LOCAL_PATH, $imageName);
+           # $this->cloudService->upload($request->image->getPathName(), $imageName);
         }
 
         $article->setTitle($request->input('title'));

@@ -23,7 +23,7 @@ class TagsTable extends Migration
             $table->integer('news_id')->unsigned();
             $table->integer('tag_id')->unsigned();
 
-            $table->foreign('news_id')->references('id')->on('news');
+            $table->foreign('news_id')->references('id')->on('news')->onDelete('cascade');
             $table->foreign('tag_id')->references('id')->on('tag');
         });
     }
