@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Services\TagsService;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -28,12 +29,18 @@ abstract class AdminBaseController extends BaseController
     protected $em;
 
     /**
+     * @var TagsService
+     */
+    protected $tagService;
+
+    /**
      * AdminBaseController constructor.
      * @param EntityManager $entityManager
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, TagsService $tagsService)
     {
         $this->em = $entityManager;
+        $this->tagService = $tagsService;
         $this->setRepos();
     }
 

@@ -124,17 +124,27 @@ class TagsService
         return $news;
     }
 
+    //TODO: Make changes in js to follow fo the url and depending on url make ajax request for tags or news
+    public function getNewsByTagAjax() : array {
+        $news = $this->newsTagsRepo->findAll(News::NEWS_COUNT_PER_PAGE, $offset);
+    }
+
     /**
      * @return array
      */
     public function calculateTagsCount() : array
     {
         $tags = [];
+        $temp = [];
         $tagsArray = $this->tagRepo->findAll();
         foreach ($tagsArray as $tag) {
             if ($tagCount = $this->newsTagsRepo->findTagCount($tag->getId())) {
-                array_push($tags, sprintf('<a href="' . route('news.search.byTag', $tag->getId()) . '">%s(%s)</a>', $tag->getName(), $tagCount));
+                $temp[$tagCount] = ['id' => $tag->getId(), 'name' => $tag->getName()];
             }
+        }
+        krsort($temp);
+        foreach ($temp as $tagCount => $tag) {
+            array_push($tags, sprintf('<a href="' . route('news.search.byTag', $tag['id']) . '">%s(%s)</a>', $tag['name'], $tagCount));
         }
         \Cache::forever(TagsService::TAG_CACHE_KEY, implode(',', $tags));
         return $tags;
@@ -148,7 +158,6 @@ class TagsService
         if (\Cache::has(TagsService::TAG_CACHE_KEY)) {
                 return explode(',', \Cache::get(TagsService::TAG_CACHE_KEY));
         } else {
-            \Log::debug('yes');
             return $this->calculateTagsCount();
         }
     }

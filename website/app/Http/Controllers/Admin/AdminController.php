@@ -4,14 +4,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Entities\News;
+use App\Entities\Tag;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class AdminController extends AdminBaseController
 {
+    protected $tagRepo;
+
     protected function setRepos()
     {
-        // TODO: Implement setRepos() method.
+        $this->tagRepo = $this->em->getRepository(Tag::class);
     }
 
     /**
@@ -20,7 +23,11 @@ class AdminController extends AdminBaseController
     public function index()
     {
         $news = $this->em->getRepository(News::class)->findAll(5);
-        return $this->renderView('admin.index', ['news' => $news]);
+        $tags = $this->tagService->getTagList();
+        return $this->renderView('admin.index', [
+            'news' => $news,
+            'tags' => $tags
+        ]);
     }
 
     /**

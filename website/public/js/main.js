@@ -1,6 +1,8 @@
 $(document).ready(function() {
     var moreNewsUrl = '/news/more/';
-    var newsPerPage = 5;
+    
+    var tagsUrl = 'search/tag/';
+    var newsPerPage = 2;
     var offsetNews = newsPerPage;
     var noNews = false;
     var onProcess = false;

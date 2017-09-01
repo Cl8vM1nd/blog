@@ -15,4 +15,15 @@ class TagRepository extends EntityRepository
     {
         return $this->findOneBy(['name' => $name]);
     }
+
+    /**
+     * @param int $limit
+     * @param int $offset
+     * @return mixed
+     */
+    public function findAll(int $limit = null, int $offset = 0)
+    {
+        return $this->findBy(array(), array('id' => 'DESC'), $limit, $offset);
+    }
+
 }
