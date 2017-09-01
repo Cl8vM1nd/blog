@@ -15,7 +15,7 @@ abstract class AdminBaseController extends BaseController
     /**
      * @var string
      */
-    protected $breadCrumbPattern = '/((http:\/\/[a-z.-]+\/admin)+\/([a-z]+))/';
+    protected $breadCrumbPattern = '/((http:\/\/[a-z.-:0-9]+\/admin)+\/([a-z]+))/';
 
     /**
      * @var string
@@ -50,7 +50,6 @@ abstract class AdminBaseController extends BaseController
     public function renderView(string $view, array $data = [])
     {
         preg_match($this->breadCrumbPattern, url()->current(), $matches);
-
         if (isset($matches[3])) {
             $data['breadcrumb'] = ' / ' . ucfirst($matches[3]) ?? '';
         } else {

@@ -59,7 +59,7 @@ body {
 
 .admin-panel-content {
     /*background: #ffffff;*/
-    color: #ffffff;
+    color: #000000;
     height: 1100px;
     -webkit-box-shadow: 0px 0px 16px -2px rgba(0,0,0,0.02);
     -moz-box-shadow: 0px 0px 16px -2px rgba(0,0,0,0.02);
@@ -70,6 +70,32 @@ body {
     border-radius: 30px;
 }
 
+.admin-panel-content .block {
+    background: #ffffff;
+    border: 1px dotted #00ffc4;
+    width: 300px;
+    color: #000000;
+    padding: 10px;
+    -webkit-box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.02);
+    -moz-box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.02);
+    box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.02);
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.admin-panel-content .block .title {
+    text-align: center;
+    font-size: 15pt;
+    margin-bottom: 20px;
+    color: #000;
+    text-transform: uppercase;
+}
+
+.admin-panel-content .block .title img {
+    width: 25px;
+    margin: 0 0 5px 15px;
+}
 
 .admin-panel-left {
    /* background: #d2d466;*/
@@ -242,7 +268,7 @@ textarea {
 
 
 
-    .admin-panel-top .logout {
+    .admin-panel-top .logout {.admin-panel-content
         right: 0px;
         top: -30px;
     }

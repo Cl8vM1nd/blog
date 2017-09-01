@@ -19,7 +19,8 @@ class AdminController extends AdminBaseController
      */
     public function index()
     {
-        return $this->renderView('admin.index');
+        $news = $this->em->getRepository(News::class)->findAll(5);
+        return $this->renderView('admin.index', ['news' => $news]);
     }
 
     /**
