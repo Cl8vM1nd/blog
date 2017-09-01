@@ -8,7 +8,7 @@ use App\Entities\Admin;
 use App\Entities\User;
 use Illuminate\Http\Request;
 
-class AccountController extends AdminBaseController
+class AdminAccountController extends AdminBaseController
 {
     /**
      * @param Request $request

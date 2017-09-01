@@ -33,8 +33,8 @@ Route::post('/register', 'Index\RegisterController@postIndex');
  */
 Route::group(['prefix' => 'admin', 'as' => 'admin::', 'namespace' => 'Admin'], function() {
     /* Log in */
-    Route::get('/login', ['uses' => 'AccountController@login', 'as' => 'login']);
-    Route::post('/login', 'AccountController@postLogin');
+    Route::get('/login', ['uses' => 'AdminAccountController@login', 'as' => 'login']);
+    Route::post('/login', 'AdminAccountController@postLogin');
 
     /* Authorized */
     Route::group(['middleware' => ['auth:admin']], function() {

@@ -12,12 +12,11 @@ $(document).ready(function() {
                         'Auth': $('input[name="ui"]').val() + $('input[name="at"]').val()
                     }
                 });
-
             if(!noNews && !onProcess) {
                 $.ajax({
                     type: "GET",
                     beforeSend: function () {
-                            $('#spinner').fadeIn(400);
+                            $('#spinner_image').fadeIn(100);
                             onProcess = true;
                     },
                     url: moreNewsUrl + offsetNews,
@@ -26,12 +25,12 @@ $(document).ready(function() {
                     },
                     success: function (data) {
                         if (data == 'null') {
-                            $('#spinner').hide(400);
+                            $('#spinner_image').hide(300);
                             noNews = true;
                         } else {
                             $('input[name="at"]').val(data[1]);
                             $(data[0]).appendTo('#content');
-                            $('#spinner').fadeOut(400);
+                            $('#spinner_image').fadeOut(300);
 
                             offsetNews += newsPerPage;
                             noNews = false;
