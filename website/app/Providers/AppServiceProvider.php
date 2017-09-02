@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\AjaxAuthService;
 use App\Services\CloudService;
 use App\Services\TagsService;
 use Illuminate\Support\ServiceProvider;
@@ -75,6 +76,7 @@ class AppServiceProvider extends ServiceProvider
             return new CloudService();
         });
 
+        $this->app->alias(AjaxAuthService::class, 'ajax.auth.service');
         $this->app->singleton(TagsService::class, function($app) {
             return new TagsService(
                 $app->make(EntityManager::class)

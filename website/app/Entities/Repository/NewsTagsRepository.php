@@ -19,4 +19,15 @@ class NewsTagsRepository extends EntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    /**
+     * @param array|null $condition
+     * @param int|null $limit
+     * @param int $offset
+     * @return array
+     */
+    public function findAll(array $condition = null, int $limit = null, int $offset = 0)
+    {
+        return $this->findBy($condition, array('id' => 'DESC'), $limit, $offset);
+    }
 }

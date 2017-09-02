@@ -1,9 +1,7 @@
 $(document).ready(function() {
     var moreNewsUrl = '/news/more/';
-    
-    var tagsUrl = 'search/tag/';
-    var newsPerPage = 2;
-    var offsetNews = newsPerPage;
+    var tagsUrl = '/news/search/tag/more/';
+    var offsetNews = 0;
     var noNews = false;
     var onProcess = false;
 
@@ -21,7 +19,7 @@ $(document).ready(function() {
                             $('#spinner_image').fadeIn(100);
                             onProcess = true;
                     },
-                    url: moreNewsUrl + offsetNews,
+                    url: getUrl() + offsetNews,
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         console.log("Error. Please try again.");
                     },
@@ -34,7 +32,7 @@ $(document).ready(function() {
                             $(data[0]).appendTo('#content');
                             $('#spinner_image').fadeOut(300);
 
-                            offsetNews += newsPerPage;
+                            offsetNews += data[2];
                             noNews = false;
                         }
                         onProcess = false;
@@ -43,4 +41,15 @@ $(document).ready(function() {
             }
         }
     });
+
+    /* Get right ajax url depending on current application url*/
+    function getUrl() {
+        var url = window.location.pathname;
+        if(url.indexOf('search') != -1) {
+            var tagId = url.substr(url.lastIndexOf('/') + 1);
+            return tagsUrl + tagId + '/';
+        } else {
+            return moreNewsUrl;
+        }
+    }
 });

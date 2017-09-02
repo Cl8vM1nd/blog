@@ -242,6 +242,7 @@ return [
         'Registry'      => LaravelDoctrine\ORM\Facades\Registry::class,
         'Doctrine'      => LaravelDoctrine\ORM\Facades\Doctrine::class,
         'Cloud'         => App\Facades\Cloud::class,
+        'AjaxAuth'      => App\Facades\AjaxAuth::class,
     ],
 
 ];

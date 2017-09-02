@@ -15,10 +15,14 @@ Route::get('/', ['uses' => 'Index\NewsController@index', 'as' => 'index']);
 
 Route::group(['prefix' => 'news', 'as' => 'news.'], function() {
     Route::get('/{id}', ['uses' => 'Index\NewsController@show', 'as' => 'show']);
-    Route::get('/more/{id}', ['uses' => 'Index\NewsController@getMoreNews', 'as' => 'more']);
+    Route::get('/more/{id}', ['uses' => 'Index\NewsController@getMoreNews', 'as' => 'more'])->middleware('ajax');
 
-    Route::group(['prefix' => 'search', 'as' => 'search.'], function () {
-        Route::get('/tag/{id}', ['uses' => 'Index\NewsController@getNewsByTag', 'as' => 'byTag']);
+    Route::group(['prefix' => 'search', 'as' => 'search.byTag'], function () {
+        Route::get('/tag/{id}', ['uses' => 'Index\NewsController@getNewsByTag']);
+        Route::get('/tag/more/{tagId}/{id}', [
+            'uses' => 'Index\NewsController@getNewsByTagMore',
+            'as' => '.ajax'
+        ])->middleware('ajax');
     });
 });
 
