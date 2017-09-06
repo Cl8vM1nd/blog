@@ -10,6 +10,7 @@ use App\Services\AjaxAuthService;
 use App\Services\TagsService;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Http\Request;
+use Cookie;
 
 class NewsController extends BaseController
 {
@@ -47,9 +48,13 @@ class NewsController extends BaseController
      */
     public function index()
     {
-        $news = $this->newsRepo->findAll(News::NEWS_COUNT_PER_PAGE);
-        $this->ajaxAuthService->generateHash();
+        if(isset($_COOKIE['OFFSET'])) {
+            $news = $this->newsRepo->findAll((int)$_COOKIE['OFFSET']);
+        } else {
+            $news = $this->newsRepo->findAll(News::NEWS_COUNT_PER_PAGE);
+        }
 
+        $this->ajaxAuthService->generateHash();
         return $this->renderView('index.index', ['news' => $news]);
     }
 
@@ -63,6 +68,8 @@ class NewsController extends BaseController
         if (!$article = $this->newsRepo->find($id)) {
             abort(404, 'Entity not found.');
         }
+
+       // $this->ajaxAuthService->generateHash();
 
         return $this->renderView('index.news.full', [
             'article' => $article,
@@ -126,6 +133,7 @@ class NewsController extends BaseController
 
 
     /**
+     * If @var $offset = 0 it means script running first time
      * @param Request $request
      * @param int $offset
      * @return mixed

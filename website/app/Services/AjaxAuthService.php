@@ -46,11 +46,11 @@ class AjaxAuthService
      */
     public function getUserId()
     {
-        if (!\Session::has(AjaxAuthService::USER_ID)) {
+        if (!session(AjaxAuthService::USER_ID)) {
             \Log::debug('no');
-            \Session::set(AjaxAuthService::USER_ID, $this->getRandUserId());
+            session([AjaxAuthService::USER_ID => $this->getRandUserId()]);
         }
-        return \Session::get(AjaxAuthService::USER_ID);
+        return session(AjaxAuthService::USER_ID);
     }
 
     /**
@@ -58,8 +58,8 @@ class AjaxAuthService
      */
     public function getAuthHash()
     {
-        \Log::debug( ' AuthHash:' . \Session::get(AjaxAuthService::USER_AUTH_HASH));
-        return \Session::get(AjaxAuthService::USER_AUTH_HASH);
+        \Log::debug( ' AuthHash:' . session(AjaxAuthService::USER_AUTH_HASH));
+        return session(AjaxAuthService::USER_AUTH_HASH);
     }
 
     /**
@@ -67,8 +67,8 @@ class AjaxAuthService
      */
     public function getAuthToken()
     {
-        \Log::debug( ' AuthHash:' . \Session::get(AjaxAuthService::USER_AUTH_TOKEN));
-        return \Session::get(AjaxAuthService::USER_AUTH_TOKEN);
+        \Log::debug( ' AuthHash:' . session(AjaxAuthService::USER_AUTH_TOKEN));
+        return session(AjaxAuthService::USER_AUTH_TOKEN);
     }
 
     /**
@@ -77,10 +77,13 @@ class AjaxAuthService
      */
     public function generateHash(bool $returnCredentials = false)
     {
+        \Request::session()->forget([AjaxAuthService::USER_AUTH_TOKEN, AjaxAuthService::USER_AUTH_HASH]);
+
         $this->authToken = \Hash::make(AjaxAuthService::GUID . time());
         $this->authHash = \Hash::make($this->getUserId() . $this->authToken . AjaxAuthService::SALT);
-        \Session::set(AjaxAuthService::USER_AUTH_TOKEN, $this->authToken);
-        \Session::set(AjaxAuthService::USER_AUTH_HASH, $this->authHash);
+
+        session([AjaxAuthService::USER_AUTH_TOKEN => $this->authToken]);
+        session([AjaxAuthService::USER_AUTH_HASH  => $this->authHash]);
 
         if ($returnCredentials) {
             return $this->authToken;
@@ -94,6 +97,7 @@ class AjaxAuthService
      */
     public function checkHash(string $hash)
     {
+        \Log::debug($hash . AjaxAuthService::SALT . ' - - ' . $this->getAuthHash());
         return \Hash::check($hash . AjaxAuthService::SALT, $this->getAuthHash());
     }
 }

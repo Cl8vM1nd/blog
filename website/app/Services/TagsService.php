@@ -8,6 +8,7 @@ use App\Entities\News;
 use App\Entities\NewsTags;
 use App\Entities\Tag;
 use App\Http\Controllers\Admin\NewsController;
+use Carbon\Carbon;
 use Doctrine\ORM\EntityManager;
 
 class TagsService
@@ -135,16 +136,18 @@ class TagsService
     public function calculateTagsCount() : array
     {
         $tags = [];
+        $tagsNames = [];
         $temp = [];
         $tagsArray = $this->tagRepo->findAll();
         foreach ($tagsArray as $tag) {
-            if ($tagCount = $this->newsTagsRepo->findTagCount($tag->getId())) {
-                $temp[$tagCount] = ['id' => $tag->getId(), 'name' => $tag->getName()];
+            if($tagCount = $this->newsTagsRepo->findTagCount($tag->getId())) {
+                $temp[$tag->getId()] = $tagCount;
+                $tagsNames[$tag->getId()] = $tag->getName();
             }
         }
-        krsort($temp);
-        foreach ($temp as $tagCount => $tag) {
-            array_push($tags, sprintf('<a href="' . route('news.search.byTag', $tag['id']) . '">%s(%s)</a>', $tag['name'], $tagCount));
+        arsort($temp);
+        foreach ($temp as $tagId => $tagCount) {
+            array_push($tags, sprintf('<a href="' . route('news.search.byTag', $tagId) . '">%s(%s)</a>', $tagsNames[$tagId], $tagCount));
         }
         \Cache::forever(TagsService::TAG_CACHE_KEY, implode(',', $tags));
         return $tags;
@@ -156,7 +159,7 @@ class TagsService
     public function getTagList() : array
     {
         if (\Cache::has(TagsService::TAG_CACHE_KEY)) {
-                return explode(',', \Cache::get(TagsService::TAG_CACHE_KEY));
+            return explode(',', \Cache::get(TagsService::TAG_CACHE_KEY));
         } else {
             return $this->calculateTagsCount();
         }

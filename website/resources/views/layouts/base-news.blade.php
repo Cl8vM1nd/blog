@@ -19,8 +19,6 @@
     </div>
 </div>
 
-<script src="/vendor/jquery/dist/jquery.js"></script>
-<script src="/vendor/bootstrap/dist/js/bootstrap.js"></script>
-<script src="/js/main.js"></script>
+<script data-main="../js/config/article.js" src="../js/require.js"></script>
 </body>
 </html>

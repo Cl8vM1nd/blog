@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class News
 {
-    const NEWS_COUNT_PER_PAGE = 2;
+    const NEWS_COUNT_PER_PAGE = 1;
     const NEWS_ADMIN_COUNT_PER_PAGE = 10;
     const LOCAL_PATH = '/news/images';
     /**
