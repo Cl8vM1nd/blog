@@ -22,8 +22,7 @@
 body {
     margin: 0;
     padding: 0;
-    font-family:'Lato', sans-serif;
-    font-weight: 100;
+    font-family: 'Lato Light', serif;
     background: #fdfdfd;
     color: #444;
     overflow:auto;
@@ -69,7 +68,8 @@ h3 {
 }
 
 blockquote {
-    font-size: 15pt;
+    font-family: Playfair, serif;
+    font-size: 12pt;
 }
 
 #content {
@@ -88,14 +88,13 @@ blockquote {
 .about-me {
     text-align: justify;
     margin: 0 5px 30px;
-    font-size: 13pt;
+    font-size: 11pt;
     width: 100%;
-    letter-spacing: 0px;
+    letter-spacing: 1px;
 }
 
 .about-me .docker{
-    width: 34px;
-    margin-top: -7px;
+    width: 20px;
     vertical-align: bottom;
 }
 
@@ -114,7 +113,7 @@ blockquote {
 }
 
 .follow-me a i {
-    margin-right:37px;
+    margin-right:25px;
 }
 
 #content .article {
@@ -242,6 +241,11 @@ blockquote {
     margin-top: -55px;
 }
 
+#news-spinner {
+    width: 135px;
+    margin: 150px auto;
+}
+
 #spinner_image {
     display: none;
 }
@@ -268,10 +272,10 @@ hr.style-seven {
 @media screen and (max-width:775px) and (orientation: landscape){
     .about-me {
         text-align: justify;
-        margin: 0 5px 125px;
-        font-size: 13pt;
+        margin: 0 5px 30px;
+        font-size: 11pt;
         width: 100%;
-        letter-spacing: 0px;
+        letter-spacing: 1px;
     }
 }
 

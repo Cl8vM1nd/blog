@@ -16,6 +16,10 @@ class News
 {
     const NEWS_COUNT_PER_PAGE = 1;
     const NEWS_ADMIN_COUNT_PER_PAGE = 10;
+    const OFFSET_NEWS_COOKIE_NAME = 'offset';
+    const CACHE_NEWS_NAME = 'news';
+    const CACHE_NEWS_AMOUNT = 'news_amount';
+    const CACHE_NEWS_PERIOD = 180;
     const LOCAL_PATH = '/news/images';
     /**
      * @var integer

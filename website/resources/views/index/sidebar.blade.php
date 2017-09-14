@@ -11,9 +11,10 @@
 
 <div class="follow-me">
     <div class="title">Follow ME</div>
-    <a href=""><i class="im im-vk"></i></a>
-    <a href=""><i class="im im-twitter"></i></a>
-    <a href=""><i class="im im-facebook"></i></a>
+    <a href="https://vk.com/cl8vm1nd" target="_blank"><i class="im im-vk"></i></a>
+    <a href="https://www.facebook.com/cl8vm1nd" target="_blank"><i class="im im-facebook-like"></i></a>
+    <a href="https://github.com/Cl8vM1nd" target="_blank"><i class="im im-github"></i></a>
+    <a href="https://twitter.com/cl8vm1nd" target="_blank"><i class="im im-twitter"></i></a>
     <a href="https://instagram.com/ilyaandkate" target="_blank"><i class="im im-instagram"></i></a>
 </div>
 <div class="tags">

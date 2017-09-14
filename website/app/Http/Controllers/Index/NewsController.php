@@ -48,14 +48,8 @@ class NewsController extends BaseController
      */
     public function index()
     {
-        if(isset($_COOKIE['OFFSET'])) {
-            $news = $this->newsRepo->findAll((int)$_COOKIE['OFFSET']);
-        } else {
-            $news = $this->newsRepo->findAll(News::NEWS_COUNT_PER_PAGE);
-        }
-
         $this->ajaxAuthService->generateHash();
-        return $this->renderView('index.index', ['news' => $news]);
+        return $this->renderView('index.index');
     }
 
     /**
@@ -69,8 +63,6 @@ class NewsController extends BaseController
             abort(404, 'Entity not found.');
         }
 
-       // $this->ajaxAuthService->generateHash();
-
         return $this->renderView('index.news.full', [
             'article' => $article,
             'title' => $article->getTitle()
@@ -78,42 +70,69 @@ class NewsController extends BaseController
     }
 
     /**
-     * @param int $tagId
-     * @return \Illuminate\Contracts\View\View
+     * If @var $offset = 0 it means script running first time
+     * @param Request $request
+     * @param int $amount
+     * @param int $offset
+     * @return mixed
      */
-    public function getNewsByTag(int $tagId)
+    public function getMoreNews(Request $request, int $offset = 0,  int $amount = News::NEWS_COUNT_PER_PAGE)
     {
-       $tags = $this->newsTagsRepo->findAll(['tag' => $tagId], News::NEWS_COUNT_PER_PAGE);
-       $news = [];
-       foreach ($tags as $tag) {
-           array_push($news, $tag->getNews());
-       }
+        if (\Request::ajax()) {
+            $this->verifyXSRFProtection();
+            // If reach max news
+            if ($offset >= $this->newsRepo->findNewsCount()) {
+                return 'null';
+            }
 
-       $this->ajaxAuthService->generateHash();
-       return $this->renderView('index.index', ['news' => $news]);
+            if (!$offset) {
+                // If we have news in cache retrieve it
+                if ($view = \Cache::has(News::CACHE_NEWS_AMOUNT) && \Cache::get(NEWS::CACHE_NEWS_AMOUNT) == $amount) {
+                    \Log::debug('RETURN CACHE');
+                    return [
+                        \Cache::get(NEWS::CACHE_NEWS_NAME),
+                        $this->ajaxAuthService->generateHash(true)
+                    ];
+                }
+            }
+
+            $news = $this->newsRepo->findAll($amount, $offset);
+            $view = $this->renderView('index.news.news-portion', ['news' => $news])->render();
+            if (!$offset) {
+                \Log::debug('SETTING CACHE');
+                \Cache::put(News::CACHE_NEWS_AMOUNT, $amount, News::CACHE_NEWS_PERIOD);
+                \Cache::put(News::CACHE_NEWS_NAME, json_encode($view), News::CACHE_NEWS_PERIOD);
+            }
+            return [
+                json_encode($view),
+                $this->ajaxAuthService->generateHash(true)
+            ];
+        } else {
+            return abort(401, 'Bad Request');
+        }
     }
-
 
     /**
      * If @var $offset = 0 it means script running first time
      * @param Request $request
      * @param int $tagId
      * @param int $offset
+     * @param int $amount
      * @return array|string
      */
-    public function getNewsByTagMore(Request $request, int $tagId, int $offset)
+    public function getNewsByTagMore(Request $request, int $tagId, int $offset = 0, int $amount = NEWS::NEWS_COUNT_PER_PAGE)
     {
         if (\Request::ajax()) {
             $this->verifyXSRFProtection();
 
             // If reach max news
-            if ($offset > count($this->newsTagsRepo->findBy(['tag' => $tagId]))) {
+            if ($offset >= count($this->newsTagsRepo->findBy(['tag' => $tagId]))) {
                 return 'null';
             }
 
             $tags = $this->newsTagsRepo->findAll([
                 'tag' => $tagId
-            ], News::NEWS_COUNT_PER_PAGE, !$offset ? News::NEWS_COUNT_PER_PAGE : $offset);
+            ], $amount, $offset);
 
             $news = [];
             foreach ($tags as $tag) {
@@ -122,37 +141,8 @@ class NewsController extends BaseController
 
             $view = $this->renderView('index.news.news-portion', ['news' => $news])->render();
             return [
-                $view,
-                $this->ajaxAuthService->generateHash(true),
-                !$offset ? News::NEWS_COUNT_PER_PAGE + News::NEWS_COUNT_PER_PAGE : News::NEWS_COUNT_PER_PAGE
-            ];
-        } else {
-            return abort(401, 'Bad Request');
-        }
-    }
-
-
-    /**
-     * If @var $offset = 0 it means script running first time
-     * @param Request $request
-     * @param int $offset
-     * @return mixed
-     */
-    public function getMoreNews(Request $request, int $offset)
-    {
-        if (\Request::ajax()) {
-            $this->verifyXSRFProtection();
-            // If reach max news
-            if ($offset > $this->newsRepo->findNewsCount()) {
-                return 'null';
-            }
-
-            $news = $this->newsRepo->findAll(News::NEWS_COUNT_PER_PAGE, !$offset ? News::NEWS_COUNT_PER_PAGE : $offset);
-            $view = $this->renderView('index.news.news-portion', ['news' => $news])->render();
-            return [
-                $view,
-                $this->ajaxAuthService->generateHash(true),
-                !$offset ? News::NEWS_COUNT_PER_PAGE + News::NEWS_COUNT_PER_PAGE : News::NEWS_COUNT_PER_PAGE
+                json_encode($view),
+                $this->ajaxAuthService->generateHash(true)
             ];
         } else {
             return abort(401, 'Bad Request');

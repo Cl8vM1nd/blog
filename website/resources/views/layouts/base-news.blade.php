@@ -19,6 +19,6 @@
     </div>
 </div>
 
-<script data-main="../js/config/article.js" src="../js/require.js"></script>
+<script async="false" data-main="../js/config/article.js" src="../js/require.js"></script>
 </body>
 </html>

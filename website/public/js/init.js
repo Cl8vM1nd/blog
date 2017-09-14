@@ -5,9 +5,14 @@ requirejs.config({
         bootstrap_tags: '/vendor/bootstrap-tagsinput/src/bootstrap-tagsinput',
         jquery: '../../vendor/jquery/dist/jquery',
         backDetect: '../../vendor/jquery-backdetect/jquery.backDetect',
-        tinymce: '/vendor/tinymce/js/tinymce/tinymce.min'
+        tinymce: '/vendor/tinymce/js/tinymce/tinymce.min',
+        domReady: '../plugins/domReady'
     },
-    urlArgs: "version=" +  (new Date()).getTime()
+    urlArgs: "ver=" +  (new Date()).getTime()
 });
 
-requirejs(['config']);
+requirejs(['jquery'], ($) => {
+   require(['config'], ($, config) => {
+        init();
+   });
+});

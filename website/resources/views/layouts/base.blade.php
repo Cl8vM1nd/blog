@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Cache-control" content="public">
     <title>{{$title}}</title>
     <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
@@ -18,8 +19,11 @@
             @include('index.sidebar')
         </div>
 
-        <div class="col-sm-9" id="content">
-            @yield('content')
+        <div class="col-sm-9" id="content-block">
+            <div id="news-spinner"><img src='/vendor/SVG-Loaders/svg-loaders/bars.svg'/></div>
+            <div id="content">
+                @yield('content')
+            </div>
         </div>
         <div id='spinner'><img src='/vendor/SVG-Loaders/svg-loaders/three-dots.svg' id="spinner_image"/></div>
         <input type="hidden" name="ui" value="{{$ajax->getUserId()}}" />

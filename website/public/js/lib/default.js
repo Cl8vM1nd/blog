@@ -1,0 +1,2 @@
+// Check LocalStorage available
+//checkLocalStorageAvailable();
