@@ -1,7 +1,7 @@
 @extends('layouts.base-news')
 
 @section('content')
-@inject('cloud', 'App\Services\CloudService')
+@inject('file', 'App\Services\FileUploadService')
 @inject('tags', 'App\Services\TagsService')
 
 <div class="breadcrumbs">
@@ -9,7 +9,7 @@
 </div>
 
 <div class="article">
-   <div class="image-full"><img src="{{$cloud->getPublicUrl($article->getImage())}}" alt=""></div>
+   <div class="image-full"><img src="{{$file->getImageUrl($article->getImage())}}" alt=""></div>
    <div class="block">
       <div class="title">{!! $article->getTitle() !!}</div>
       <div class="content">{!! $article->getContent() !!}</div>

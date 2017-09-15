@@ -20,7 +20,6 @@ class News
     const CACHE_NEWS_NAME = 'news';
     const CACHE_NEWS_AMOUNT = 'news_amount';
     const CACHE_NEWS_PERIOD = 180;
-    const LOCAL_PATH = '/news/images';
     /**
      * @var integer
      *

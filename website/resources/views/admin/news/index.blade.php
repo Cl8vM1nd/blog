@@ -1,6 +1,7 @@
 @extends('layouts.admin-base')
 @section('content')
 @inject('tags', 'App\Services\TagsService')
+@inject('file', 'App\Services\FileUploadService')
 
 <div id="setupNews">
     <div class="newsAction">
@@ -33,7 +34,7 @@
                             {{ $item->getContent(120, ['all']) }}
                         </td>
                         <td>
-                            <a href="{{\Cloud::getPublicUrl($item->getImage())}}" target="_blank"><img src="{{ \Cloud::getPublicUrl($item->getImage()) }}" width="100px"></a>
+                            <a href="{{$file->getImageUrl($item->getImage())}}" target="_blank"><img src="{{ $file->getImageUrl($item->getImage()) }}" width="100px"></a>
                         </td>
                         <td>
                             {{ count($item->getTags()->toArray()) ? $tags->tagsToString($item) : 'No tags'}}
@@ -45,7 +46,7 @@
                             {{ $item->getUpdatedAt()->format('d-m-Y H:i:s') }}
                         </td>
                         <td>
-                            <a href="{{ route('admin::news.view', $item->getId()) }}"><img src="/img/news.view.png" alt=""></a>
+                            <a href="{{ route('news.show', $item->getId()) }}" target="_blank"><img src="/img/news.view.png" alt=""></a>
                             <a href="{{ route('admin::news.edit', $item->getId()) }}"><img src="/img/news.edit.png" alt=""></a>
                             <a href="{{ route('admin::news.delete', $item->getId()) }}" class="news-delete" id="{{ $item->getId() }}" _token="{{ csrf_token() }}"><img src="/img/news.delete.png" alt=""></a>
                         </td>

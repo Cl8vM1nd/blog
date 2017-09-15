@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Entities\News;
 use App\Services\CloudService;
+use App\Services\FileUploadService;
 use App\Services\TagsService;
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManager;
@@ -14,21 +15,39 @@ class NewsController extends AdminBaseController
 {
     protected $newsRepo;
 
+    /**
+     * @var TagsService $tagsService
+     */
     protected $tagsService;
 
+    /**
+     * @var CloudService $cloudService
+     */
     protected $cloudService;
+
+    /**
+     * @var FileUploadService $fileUploadService
+     */
+    protected $fileUploadService;
 
     /**
      * NewsController constructor.
      * @param EntityManager $entityManager
      * @param TagsService $tagsService
      * @param CloudService $cloudService
+     * @param fileUploadService $fileUploadService
      */
-    public function __construct(EntityManager $entityManager, TagsService $tagsService, CloudService $cloudService)
+    // TODO: Remove cloudService
+    public function __construct(
+        EntityManager $entityManager,
+        TagsService $tagsService,
+        CloudService $cloudService,
+        FileUploadService $fileUploadService)
     {
         $this->em = $entityManager;
         $this->tagsService = $tagsService;
         $this->cloudService = $cloudService;
+        $this->fileUploadService = $fileUploadService;
         $this->setRepos();
     }
 
@@ -72,22 +91,22 @@ class NewsController extends AdminBaseController
     {
         $this->validate($request, [
             'title'      => 'string|required',
-            'image'      => 'image|required',
+            'file'       => 'image|required',
             'imageTitle' => 'string|required',
             'content'    => 'string|required',
             'tags'       => 'required|regex:/[a-zA-Z-_., ]+/'
         ]);
 
+        $this->fileUploadService->uploadImage($request, FileUploadService::NEWS_IMAGE_PATH);
 
-        $imageName = $request->input('imageTitle') . '.' . $request->image->extension();
-        $request->file('image')->storeAs(News::LOCAL_PATH, $imageName);
-        #$this->cloudService->upload($request->image->getPathName(), $imageName);
-
-        $article = new News($request->input('title'), $imageName, $request->input('content'));
+        $article = new News($request->input('title'), FileUploadService::NEWS_IMAGE_PATH . $request->file->getClientOriginalName(), $request->input('content'));
         $this->em->persist($article);
         $this->em->flush();
 
         $this->tagsService->attachTagsToArticle($article, $request->input('tags'));
+
+        /* Clean cache for dynamic news */
+        \Cache::flush();
 
         return redirect()->route('admin::news.index');
     }
@@ -100,7 +119,7 @@ class NewsController extends AdminBaseController
     {
         $this->validate($request, [
             'id'         => 'required|integer',
-            'image'      => 'image',
+            'file'       => 'image',
             'title'      => 'required',
             'imageTitle' => 'string|required',
             'content'    => 'required',
@@ -113,19 +132,20 @@ class NewsController extends AdminBaseController
             abort(404, 'Not found.');
         }
 
-        if ($request->input('image')) {
-            $imageName = $request->input('imageTitle') . '.' . $request->image->extension();
-            $request->file('image')->storeAs(News::LOCAL_PATH, $imageName);
-           # $this->cloudService->upload($request->image->getPathName(), $imageName);
+        if ($request->file) {
+            $this->fileUploadService->updateImage($request, FileUploadService::NEWS_IMAGE_PATH, $article->getImage());
+            $article->setImage(FileUploadService::NEWS_IMAGE_PATH . $request->file->getClientOriginalName());
         }
 
         $article->setTitle($request->input('title'));
         $article->setContent($request->input('content'));
-        $article->setImage($request->input('imageTitle'));
 
         $this->em->flush();
 
         $this->tagsService->attachTagsToArticle($article, $request->input('tags'));
+
+        /* Clean cache for dynamic news */
+        \Cache::flush();
 
         return redirect()->route('admin::news.index');
     }
@@ -189,8 +209,14 @@ class NewsController extends AdminBaseController
             abort(404, 'Not found.');
         }
 
+        $this->fileUploadService->removeImage($news->getImage());
+
         $this->em->remove($news);
         $this->em->flush();
+        $this->tagsService->calculateTagsCount();
+
+        /* Clean cache for dynamic news */
+        \Cache::flush();
 
         return redirect()->route('admin::news.index');
     }
@@ -210,6 +236,6 @@ class NewsController extends AdminBaseController
      */
     public function uploadImage(Request $request)
     {
-        return response()->json(['location' => $this->cloudService->uploadNews($request->file->getPathName(), $request->file->getClientOriginalName(), true)]);
+       return $this->fileUploadService->uploadImage($request, FileUploadService::NEWS_IMAGE_PATH, true);
     }
 }

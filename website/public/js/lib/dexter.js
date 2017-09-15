@@ -2,7 +2,6 @@ $(document).ready(function() {
     updateUserSideCredentials();
     getNews();
     /**
-     * FINISH with image uploading save to cloud and local
      * TODO: Fix Bug
      * When user cancel specific page loading and click back
      * */

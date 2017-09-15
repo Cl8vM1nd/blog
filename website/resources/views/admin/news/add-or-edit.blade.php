@@ -35,7 +35,7 @@
         <div class="form-group">
             <label for="inputImage"  class="col-sm-2 control-label form-label">Main image</label>
             <div class="col-sm-5">
-                <input type="file" name="image" class="form-control" id="inputImage" placeholder="Image" >
+                <input type="file" name="file" class="form-control" id="inputImage" placeholder="Image" >
             </div>
             <div class="col-sm-5">
                 <input type="text" name="imageTitle" class="form-control" id="inputImageTitle" placeholder="imageTitle" value="{{ $nImageTitle?? '' }}">

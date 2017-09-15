@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\AjaxAuthService;
 use App\Services\CloudService;
+use App\Services\FileUploadService;
 use App\Services\TagsService;
 use Illuminate\Support\ServiceProvider;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
@@ -74,6 +75,13 @@ class AppServiceProvider extends ServiceProvider
         $this->app->alias(CloudService::class, 'cloud.service');
         $this->app->singleton(CloudService::class, function() {
             return new CloudService();
+        });
+
+        $this->app->alias(FileUploadService::class, 'file.upload.service');
+        $this->app->singleton(FileUploadService::class, function($app) {
+            return new FileUploadService(
+                $app->make(CloudService::class)
+            );
         });
 
         $this->app->alias(AjaxAuthService::class, 'ajax.auth.service');

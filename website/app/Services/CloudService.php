@@ -19,8 +19,6 @@ class CloudService
      */
     protected $baseUrl = 'https://storage.googleapis.com/clevmind-blog/';
 
-    protected $newsTempUrl = 'news_temp/';
-
     /**
      * CloudService constructor.
      */
@@ -36,11 +34,11 @@ class CloudService
      * @param bool $override
      * @return string
      */
-    public function uploadNews(string $path, string $name, $returnUrl = false, bool $override = true)
+    public function uploadNews(string $path, string $name, $returnUrl = false, bool $override = false)
     {
-        $this->upload($path, $this->newsTempUrl . $name, $override = true);
+        $this->upload($path, $name, $override);
         if ($returnUrl) {
-            return $this->getPublicUrl($this->newsTempUrl . $name);
+            return $this->getPublicUrl($name);
         }
     }
 
@@ -57,7 +55,7 @@ class CloudService
         if (file_exists($path)) {
             $file = file_get_contents($path);
             if ($file) {
-                if (($this->gc->exists($name) && $override) || (!$this->gc->exists($name))) {
+                if (($this->fileExist($name) && $override) || (!$this->fileExist($name))) {
                     if (!$this->gc->put($name, $file, $visibility)) {
                         throw new \ErrorException('File upload error.', 500);
                     }
@@ -79,8 +77,7 @@ class CloudService
      */
     public function getPublicUrl(string $name)
     {
-        //return $this->baseUrl . $name;
-        return \URL::to('/') . News::LOCAL_PATH . '/' . $name;
+        return $this->baseUrl . $name;
     }
 
     /**
@@ -90,10 +87,26 @@ class CloudService
      */
     public function getFile(string $name)
     {
-        if ($this->gc->exists($name)) {
+        if ($this->fileExist($name)) {
             return $this->gc->get($name);
         } else {
             throw new \ErrorException('File not found.');
+        }
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function fileExist(string $name)
+    {
+        return $this->gc->exists($name);
+    }
+
+    public function deleteFile($name)
+    {
+        if ($this->fileExist($name)) {
+            $this->gc->delete($name);
         }
     }
 

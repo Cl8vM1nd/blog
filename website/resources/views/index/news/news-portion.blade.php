@@ -1,9 +1,9 @@
-@inject('cloud', 'App\Services\CloudService')
+@inject('file', 'App\Services\FileUploadService')
 @inject('tags', 'App\Services\TagsService')
 @foreach($news as $article)
    <div class="article">
       <a href="/news/{{$article->getId()}}">
-         <div class="image"><img src="{{$cloud->getPublicUrl($article->getImage())}}" alt=""></div>
+         <div class="image"><img src="{{$file->getImageUrl($article->getImage())}}" alt=""></div>
       </a>
          <div class="block">
             <div class="title">{!! $article->getTitle() !!}</div>

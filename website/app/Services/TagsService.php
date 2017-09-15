@@ -125,11 +125,6 @@ class TagsService
         return $news;
     }
 
-    //TODO: Make changes in js to follow fo the url and depending on url make ajax request for tags or news
-    public function getNewsByTagAjax() : array {
-        $news = $this->newsTagsRepo->findAll(News::NEWS_COUNT_PER_PAGE, $offset);
-    }
-
     /**
      * @return array
      */
