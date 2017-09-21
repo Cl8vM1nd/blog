@@ -54,6 +54,14 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN curl -sL https://deb.nodesource.com/setup_7.x | bash
 RUN apt-get install -y nodejs
 
+#Database
+RUN wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
+RUN chmod +x cloud_sql_proxy
+
+# Run sql proxy
+RUN ./cloud_sql_proxy -instances=clevmindblog:europe-west1:clevmindblog=tcp:3306 \
+                  -credential_file=./dev/clevmind-blog-944c591def06.json &
+
 RUN npm install -g bower
 #RUN composer install
 

@@ -12,10 +12,10 @@ services:
             - clevmind-network
     # NGINX
     web:
-      image: my-blog:latest
+      image: eu.gcr.io/clevmindblog/blog/blog:v2
       container_name: blog
       ports:
-       - "8081:80"
+       - "80:80"
       volumes:
        - ./website:/var/www/blog
        - ./storage/app:/var/www/blog/storage/app

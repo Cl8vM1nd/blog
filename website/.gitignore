@@ -10,7 +10,7 @@
 #Files
 Homestead.json
 Homestead.yaml
-.env
+.env*
 yarn.lock
 .phpstorm.meta.php
 _ide_helper.php
