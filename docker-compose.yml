@@ -9,10 +9,10 @@ services:
         volumes:
             - ./storage/mysql:/var/lib/mysql
         networks:
-            - clevmind-network
+            - database
     # NGINX
     web:
-      image: eu.gcr.io/clevmindblog/blog/blog:v2
+      image: eu.gcr.io/clevmindblog/blog:v2
       container_name: blog
       ports:
        - "80:80"
@@ -24,7 +24,8 @@ services:
         - mysql
         - redis
       networks:
-        - clevmind-network
+        - server
+        - database
     # REDIS
     redis:
       container_name: redis
@@ -32,8 +33,8 @@ services:
       ports:
         - "6379:6379"
       networks:
-          - clevmind-network
+          - server
 
 networks:
-    clevmind-network:
-        external: true
+    database:
+    server:

@@ -1,0 +1,18 @@
+  version: '2'
+  services:
+    # NGINX
+    web:
+      image: eu.gcr.io/clevmindblog/blog:v2
+      container_name: blog
+      ports:
+       - "80:80"
+      volumes:
+       - ${BASE_DIR}/website:/var/www/blog
+       - ${BASE_DIR}/storage/app:/var/www/blog/storage/app
+       - ${BASE_DIR}/storage/logs:/var/www/blog/storage/logs
+      links:
+        - mysql
+        - redis
+      networks:
+        - server
+        - database
