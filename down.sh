@@ -8,4 +8,4 @@ docker-compose \
   -f "$sPath/mysql.yml" \
   -f "$sPath/redis.yml" \
   -f "$sPath/web.yml" \
-   "$@"
+   down

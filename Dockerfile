@@ -3,6 +3,11 @@ FROM ubuntu:16.04
 # File Author / Maintainer
 MAINTAINER clevmind@yandex.ru
 
+# Create website folder
+RUN mkdir -p /var/www/blog
+
+WORKDIR /var/www/blog
+
 RUN apt-get -y update && apt-get install -y
 
 # Install necessary tools
@@ -55,32 +60,16 @@ RUN curl -sL https://deb.nodesource.com/setup_7.x | bash
 RUN apt-get install -y nodejs
 
 RUN npm install -g bower
-#RUN composer install
-
-# Create website folder
-RUN mkdir -p /var/www/blog
 
 # Copy website files
 COPY ./website /var/www/blog
 COPY ./dev/nginx/blog /etc/nginx/sites-enabled/blog
 
-WORKDIR /var/www/blog
+RUN useradd -ms /bin/bash clevmind
 
-RUN useradd -ms /bin/bash  clevmind
-USER clevmind
-
-RUN composer update
-
-USER root
-
-RUN chown -R www-data:www-data .
 RUN find . -type d -exec chmod 755 {} \;
 RUN find . -type f -exec chmod 644 {} \;
 RUN chmod -R 777 storage && chmod -R 777 bootstrap/cache
-
-RUN bower update
-
-USER root
 
 # Expose ports
 EXPOSE 80

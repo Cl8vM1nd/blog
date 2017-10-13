@@ -5,7 +5,7 @@
       image: eu.gcr.io/clevmindblog/blog:v1
       container_name: blog
       ports:
-       - "80:80"
+       - "777:80"
       volumes:
        - ${BASE_DIR}/website:/var/www/blog
        - ${BASE_DIR}/storage/app:/var/www/blog/storage/app
@@ -16,3 +16,7 @@
       networks:
         - server
         - database
+      #deploy:
+      #  replicas: 2
+      #  restart_policy:
+      #    condition: on-failure
