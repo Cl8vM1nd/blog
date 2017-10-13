@@ -2,8 +2,8 @@
 /node_modules
 /public/storage
 /public/news/images
-/storage/*.key
-/storage/*.p12
+/storage/*
+!/storage/*.p12
 /vendor
 .idea
 

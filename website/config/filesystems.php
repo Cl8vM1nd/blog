@@ -65,7 +65,7 @@ return [
          'gcs' => [
             'driver'                               => 'gcs',
             'service_account'                      => "1096979342122-compute@developer.gserviceaccount.com",
-            'service_account_certificate'          => storage_path('clevmind-blog-944c591def06.json'),
+            'service_account_certificate'          => storage_path('clevmind-blog-658775f1c3f5.p12'),
             'service_account_certificate_password' => 'notasecret',
             'bucket'                               => "clevmind-blog",
         ],
