@@ -2,10 +2,10 @@
   services:
     # NGINX
     web:
-      image: eu.gcr.io/clevmindblog/blog:v1
+      image: eu.gcr.io/clevmindblog/blog:v2
       container_name: blog
       ports:
-       - "777:80"
+       - "80:80"
       volumes:
        - ${BASE_DIR}/website:/var/www/blog
        - ${BASE_DIR}/storage/app:/var/www/blog/storage/app
