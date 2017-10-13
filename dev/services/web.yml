@@ -2,7 +2,7 @@
   services:
     # NGINX
     web:
-      image: eu.gcr.io/clevmindblog/blog:v2
+      image: eu.gcr.io/clevmindblog/blog:v1
       container_name: blog
       ports:
        - "80:80"

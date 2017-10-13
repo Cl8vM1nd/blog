@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASE_DIR=$(cd "$(dirname "$0")"; pwd)
+export BASE_DIR=$(cd "$(dirname "$0")"; pwd)
 sPath="$BASE_DIR/dev/services"
 
 docker-compose \
