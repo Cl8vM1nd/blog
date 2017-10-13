@@ -1,3 +1,3 @@
 dev/mysql.env filter=git-crypt diff=git-crypt
-website/env.production filter=git-crypt diff=git-crypt
+website/.env.production filter=git-crypt diff=git-crypt
 dev/clevmind-blog-944c591def06.json filter=git-crypt diff=git-crypt
