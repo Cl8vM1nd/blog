@@ -10,7 +10,7 @@ docker-compose \
   -f "$sPath/web.yml" \
   up -d
 
-cp website/.env.production website/.env
+mv website/.env.production website/.env
 echo '1.Artisan'
 docker exec -it blog php artisan migrate
 echo '2.Composer'
