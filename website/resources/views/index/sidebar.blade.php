@@ -4,7 +4,7 @@
     <div class="my-photo">
         <img src="/img/my-img.jpg" alt="">
     </div>
-    I am a pass-ionate Software Engineer with 7 years experience.
+    I am a pass-ionate Site Reliability Engineer with 7 years experience.
     I am real fan of KISS and SOLID code. Try to use all last useful features if I can. Love DevOps <img src="/img/docker.png" width="34px" class="docker" />.
     In my free time you can find me somewhere on laracasts.com. Follow me ladies ;)
 </div>
