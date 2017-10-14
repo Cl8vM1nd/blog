@@ -87,12 +87,9 @@ let getNews = () => {
                     sS.setItem(NEWS_PER_PAGE, $('.article').length);
                 }
                 if (parseInt(sS.getItem(SCROLL_POSITION)) !== 0) {
-                  if(sessionStorage.getItem(UPDATE_CREDENTIAL_NAME) == 1) {
                     $('html, body').animate({
                         scrollTop: sS.getItem(SCROLL_POSITION)
                     }, SCROLL_SPEED);
-                    sessionStorage.setItem(UPDATE_CREDENTIAL_NAME, '0')
-                  }
                 }
             });
             sS.setItem(USER_TOKEN_FIELD_NAME, data[1]);
