@@ -1,0 +1,52 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.app }}-app
+  labels:
+    app: {{ .Values.app }}
+spec:
+  selector:
+   matchLabels:
+    app: {{ .Values.app }}
+  serviceName: {{ .Values.services.nginx.name }}
+  replicas: {{ .Values.containers.nginx.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app:  {{ .Values.app }}
+    spec:
+      initContainers:
+      - name: init-php-fpm-service
+        image: busybox
+        command: ['sh', '-c', 'until nslookup {{ .Values.services.phpfpm.name }}; do echo waiting for {{ .Values.services.phpfpm.name }}; sleep 2; done;']
+      containers:
+      - name: {{ .Values.containers.nginx.name }}
+        image: "{{ .Values.containers.nginx.image.repository }}:{{ .Values.containers.nginx.image.tag }}"
+        imagePullPolicy: {{ .Values.containers.nginx.image.pullPolicy }}
+        ports:
+          - containerPort: {{ .Values.containers.nginx.port }}
+        volumeMounts:
+        - name: {{ .Values.volume.name }}
+          mountPath: {{ .Values.volume.path }}
+      - name: {{ .Values.containers.phpfpm.name }}
+        image: "{{ .Values.containers.phpfpm.image.repository }}:{{ .Values.containers.phpfpm.image.tag }}"
+        imagePullPolicy: {{ .Values.containers.phpfpm.image.pullPolicy }}
+        ports:
+          - containerPort: {{ .Values.containers.phpfpm.port }}
+        volumeMounts:
+        - name: {{ .Values.volume.name }}
+          mountPath: {{ .Values.volume.path }}
+      - name: {{ .Values.containers.memcached.name }}
+        image: "{{ .Values.containers.memcached.image.repository }}:{{ .Values.containers.memcached.image.tag }}"
+        imagePullPolicy: {{ .Values.containers.memcached.image.pullPolicy }}
+        ports:
+          - containerPort: {{ .Values.containers.memcached.port }}
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ .Values.volume.name }}
+    spec:
+      accessModes:
+      - {{ .Values.volume.accessMode }}
+      resources:
+        requests:
+          storage: {{ .Values.volume.size }}

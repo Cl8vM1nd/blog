@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 
 # File Author / Maintainer
-MAINTAINER clevmind@yandex.ru
+MAINTAINER cl8vm1nd <clevmind@gmail.com>
 
 # Create website folder
 RUN mkdir -p /var/www/blog
@@ -59,13 +59,14 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN curl -sL https://deb.nodesource.com/setup_7.x | bash
 RUN apt-get install -y nodejs
 
-RUN npm install -g bower
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
+  && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && sudo apt-get install yarn
 
 # Copy website files
 COPY ./website /var/www/blog
+COPY ./dev/clevmind-blog-944c591def06.json /var/www/blog/storage
 COPY ./dev/nginx/blog /etc/nginx/sites-enabled/blog
-
-RUN useradd -ms /bin/bash clevmind
 
 RUN find . -type d -exec chmod 755 {} \;
 RUN find . -type f -exec chmod 644 {} \;
@@ -77,4 +78,3 @@ EXPOSE 80
 # Set the default command to execute
 # when creating a new container
 CMD service php7.0-fpm start && service memcached start && nginx -g "daemon off;"
-#CMD php artisan serve --host=0.0.0.0 --port=80

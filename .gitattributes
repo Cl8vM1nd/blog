@@ -1,3 +1,13 @@
-dev/mysql.env filter=git-crypt diff=git-crypt
-website/.env.production filter=git-crypt diff=git-crypt
+# Helm environment
+blog/values.yaml filter=git-crypt diff=git-crypt
+
+# Dev environment
 dev/clevmind-blog-944c591def06.json filter=git-crypt diff=git-crypt
+
+# Blog
+docker/php-fpm/blog/.env.production filter=git-crypt diff=git-crypt
+docker/php-fpm/blog/storage/clevmind-blog-658775f1c3f5.p12 filter=git-crypt diff=git-crypt
+
+# Production environment
+prod/clevmind-blog-944c591def06.json filter=git-crypt diff=git-crypt
+prod/mysq.env filter=git-crypt diff=git-crypt
