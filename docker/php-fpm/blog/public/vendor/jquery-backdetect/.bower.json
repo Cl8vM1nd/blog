@@ -1,0 +1,33 @@
+{
+  "name": "jquery-backdetect",
+  "description": "backDetect is a jQuery plugin that fires a callback function when a user hits the browser's back button.",
+  "main": "jquery.backDetect.js",
+  "authors": [
+    "Ian Rogren"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "backdetect",
+    "back-detect",
+    "jquery",
+    "jquery-plugin"
+  ],
+  "homepage": "https://github.com/ianrogren/jquery-backDetect",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "9bb2b07dfa",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "9bb2b07dfac22bfbdd8bc228d208b0b9c6926063"
+  },
+  "_source": "https://github.com/ianrogren/jquery-backDetect.git",
+  "_target": "*",
+  "_originalSource": "jquery-backdetect",
+  "_direct": true
+}

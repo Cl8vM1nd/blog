@@ -1,3 +1,5 @@
 .idea
-storage/
-dev/mysql.env
+/storage/
+/docker/nginx/letsencrypt
+/dev/storage/
+/dev/blog
