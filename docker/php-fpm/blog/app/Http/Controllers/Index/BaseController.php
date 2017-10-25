@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManager;
 
 abstract class BaseController extends Controller
 {
-    protected $title = 'Cl8vM1nd Blog';
+    protected $title = 'Cl8vM1nd Blog. All about DevOps Backend PHP TECH stuff. K8S and Docker containers';
     /**
      * @var EntityManager
      */

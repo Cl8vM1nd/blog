@@ -1,2 +1,5 @@
 .idea
 /storage/
+/docker/nginx/letsencrypt
+/dev/storage/
+/dev/blog

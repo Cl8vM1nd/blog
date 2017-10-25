@@ -3,13 +3,13 @@
     # NGINX
     web:
       build:
-        context: ../../
-        dockerfile: ./dev/Dockerfile.dev
+        context: ../
+        dockerfile: ./Dockerfile
       container_name: blog
       ports:
        - "777:80"
       volumes:
-       - ${BASE_DIR}/website:/var/www/blog
+       - ${BASE_DIR}/blog:/var/www/blog
        - ${BASE_DIR}/storage/app:/var/www/blog/storage/app
        - ${BASE_DIR}/storage/logs:/var/www/blog/storage/logs
       links:

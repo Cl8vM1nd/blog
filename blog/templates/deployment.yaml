@@ -10,21 +10,42 @@ spec:
     app: {{ .Values.app }}
   serviceName: {{ .Values.services.nginx.name }}
   replicas: {{ .Values.containers.nginx.replicaCount }}
+  updateStrategy:
+    type: {{ .Values.updateStrategy.type }}
   template:
     metadata:
       labels:
         app:  {{ .Values.app }}
     spec:
       initContainers:
+      - name: init-mysql-service
+        image: busybox
+        command: ['sh', '-c', 'until nslookup blog-mysql; do echo waiting for blog-mysql; sleep 1; done;']
+      - name: init-redis-service
+        image: busybox
+        command: ['sh', '-c', 'until nslookup blog-redis; do echo waiting for blog-redis; sleep 3; done;']
       - name: init-php-fpm-service
         image: busybox
-        command: ['sh', '-c', 'until nslookup {{ .Values.services.phpfpm.name }}; do echo waiting for {{ .Values.services.phpfpm.name }}; sleep 2; done;']
+        command: ['sh', '-c', 'rm -rf /var/www/blog/up;until nslookup {{ .Values.services.phpfpm.name }}; do echo waiting for {{ .Values.services.phpfpm.name }}; sleep 3; rm -rf /var/www/blog/*; done;']
+        volumeMounts:
+        - name: {{ .Values.volume.name }}
+          mountPath: {{ .Values.volume.path }}
+      - name: "remove-lost-found"
+        image: "busybox:1.25.0"
+        imagePullPolicy: "IfNotPresent"
+        command:  ["rm", "-rf", "/var/www/blog/lost+found"]
+        volumeMounts:
+        - name: {{ .Values.volume.name }}
+          mountPath: {{ .Values.volume.path }}
       containers:
       - name: {{ .Values.containers.nginx.name }}
         image: "{{ .Values.containers.nginx.image.repository }}:{{ .Values.containers.nginx.image.tag }}"
         imagePullPolicy: {{ .Values.containers.nginx.image.pullPolicy }}
         ports:
-          - containerPort: {{ .Values.containers.nginx.port }}
+          - containerPort: {{ .Values.containers.nginx.httpPort }}
+          - containerPort: {{ .Values.containers.nginx.httpsPort }}
+        livenessProbe:
+{{ toYaml .Values.livenessProbe | indent 10 }}
         volumeMounts:
         - name: {{ .Values.volume.name }}
           mountPath: {{ .Values.volume.path }}
@@ -33,14 +54,11 @@ spec:
         imagePullPolicy: {{ .Values.containers.phpfpm.image.pullPolicy }}
         ports:
           - containerPort: {{ .Values.containers.phpfpm.port }}
+        readinessProbe:
+{{ toYaml .Values.readinessProbe | indent 10 }}
         volumeMounts:
         - name: {{ .Values.volume.name }}
           mountPath: {{ .Values.volume.path }}
-      - name: {{ .Values.containers.memcached.name }}
-        image: "{{ .Values.containers.memcached.image.repository }}:{{ .Values.containers.memcached.image.tag }}"
-        imagePullPolicy: {{ .Values.containers.memcached.image.pullPolicy }}
-        ports:
-          - containerPort: {{ .Values.containers.memcached.port }}
   volumeClaimTemplates:
   - metadata:
       name: {{ .Values.volume.name }}

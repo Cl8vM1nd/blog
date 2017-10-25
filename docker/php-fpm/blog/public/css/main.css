@@ -28,6 +28,10 @@ body {
     overflow:auto;
 }
 
+b, strong {
+    font-family: 'Lato Bold', serif;
+}
+
 #adm_login{
     margin: 50% auto;
 }

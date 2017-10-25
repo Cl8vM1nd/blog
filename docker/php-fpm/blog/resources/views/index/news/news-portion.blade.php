@@ -7,7 +7,7 @@
       </a>
          <div class="block">
             <div class="title">{!! $article->getTitle() !!}</div>
-            <div class="content">{!! $article->getContent(360, ['img']) !!}</div>
+            <div class="content">{!! $article->getContent(367, ['img']) !!}</div>
             <div class="tags">
                @if(count($article->getTags()) >= 1)
                   TAGS:

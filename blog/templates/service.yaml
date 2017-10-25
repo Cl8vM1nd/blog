@@ -9,8 +9,10 @@ metadata:
 spec:
   type: {{ .Values.services.nginx.type }}
   ports:
-    - name: {{ .Values.services.nginx.ports.name }}
-      port: {{ .Values.services.nginx.ports.port }}
+    - name: {{ .Values.services.nginx.ports.http.name }}
+      port: {{ .Values.services.nginx.ports.http.port }}
+    - name: {{ .Values.services.nginx.ports.https.name }}
+      port: {{ .Values.services.nginx.ports.https.port }}
   selector:
     app: {{ .Values.app }}
 ---

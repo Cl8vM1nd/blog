@@ -64,9 +64,9 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
 RUN apt-get update && sudo apt-get install yarn
 
 # Copy website files
-COPY ./website /var/www/blog
-COPY ./dev/clevmind-blog-944c591def06.json /var/www/blog/storage
-COPY ./dev/nginx/blog /etc/nginx/sites-enabled/blog
+COPY ./blog /var/www/blog
+COPY ./clevmind-blog-944c591def06.json /var/www/blog/storage
+COPY ./nginx/blog /etc/nginx/sites-enabled/blog
 
 RUN find . -type d -exec chmod 755 {} \;
 RUN find . -type f -exec chmod 644 {} \;
