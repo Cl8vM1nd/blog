@@ -1,0 +1,70 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.app }}-app
+  labels:
+    app: {{ .Values.app }}
+spec:
+  selector:
+   matchLabels:
+    app: {{ .Values.app }}
+  serviceName: {{ .Values.services.nginx.name }}
+  replicas: {{ .Values.containers.nginx.replicaCount }}
+  updateStrategy:
+    type: {{ .Values.updateStrategy.type }}
+  template:
+    metadata:
+      labels:
+        app:  {{ .Values.app }}
+    spec:
+      initContainers:
+      - name: init-mysql-service
+        image: busybox
+        command: ['sh', '-c', 'until nslookup blog-mysql; do echo waiting for blog-mysql; sleep 1; done;']
+      - name: init-redis-service
+        image: busybox
+        command: ['sh', '-c', 'until nslookup blog-redis; do echo waiting for blog-redis; sleep 3; done;']
+      - name: init-php-fpm-service
+        image: busybox
+        command: ['sh', '-c', 'rm -rf /var/www/blog/up;until nslookup {{ .Values.services.phpfpm.name }}; do echo waiting for {{ .Values.services.phpfpm.name }}; sleep 3; rm -rf /var/www/blog/*; done;']
+        volumeMounts:
+        - name: {{ .Values.volume.name }}
+          mountPath: {{ .Values.volume.path }}
+      - name: "remove-lost-found"
+        image: "busybox:1.25.0"
+        imagePullPolicy: "IfNotPresent"
+        command:  ["rm", "-rf", "/var/www/blog/lost+found"]
+        volumeMounts:
+        - name: {{ .Values.volume.name }}
+          mountPath: {{ .Values.volume.path }}
+      containers:
+      - name: {{ .Values.containers.nginx.name }}
+        image: "{{ .Values.containers.nginx.image.repository }}:{{ .Values.containers.nginx.image.tag }}"
+        imagePullPolicy: {{ .Values.containers.nginx.image.pullPolicy }}
+        ports:
+          - containerPort: {{ .Values.containers.nginx.httpPort }}
+          - containerPort: {{ .Values.containers.nginx.httpsPort }}
+        livenessProbe:
+{{ toYaml .Values.livenessProbe | indent 10 }}
+        volumeMounts:
+        - name: {{ .Values.volume.name }}
+          mountPath: {{ .Values.volume.path }}
+      - name: {{ .Values.containers.phpfpm.name }}
+        image: "{{ .Values.containers.phpfpm.image.repository }}:{{ .Values.containers.phpfpm.image.tag }}"
+        imagePullPolicy: {{ .Values.containers.phpfpm.image.pullPolicy }}
+        ports:
+          - containerPort: {{ .Values.containers.phpfpm.port }}
+        readinessProbe:
+{{ toYaml .Values.readinessProbe | indent 10 }}
+        volumeMounts:
+        - name: {{ .Values.volume.name }}
+          mountPath: {{ .Values.volume.path }}
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ .Values.volume.name }}
+    spec:
+      accessModes:
+      - {{ .Values.volume.accessMode }}
+      resources:
+        requests:
+          storage: {{ .Values.volume.size }}
